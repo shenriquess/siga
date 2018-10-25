@@ -306,41 +306,7 @@ class Model_Alterar_Saida extends CI_Model
         return FALSE;
     }
 
-    //------------------------------------------------------------------------------------------------------------------
 
-    /**
-     * Lê todas as saídas cadastradas no banco de dados.
-     *
-     * @return bool|array Caso houve algum resultado retorna ele, se não retorna falso.
-     */
-    public function ler_saidas()
-    {
-        $sql = ' SELECT '
-            . Tabela::SAIDA . ' . ' . Tabela_Saida::ID_DESTINO . ', '
-            . Tabela::SAIDA . ' . ' . Tabela_Saida::ID_ITEM . ', '
-            . Tabela::SAIDA . ' . ' . Tabela_Saida::ID_ITEM_CONTRATO . ', '
-            . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ', '
-            . ' DATE_FORMAT(' . Tabela::SAIDA . ' . ' . Tabela_Saida::DATA . ', "%d/%m/%Y") AS data_saida, '
-            . Tabela::SAIDA . ' . ' . Tabela_Saida::QUANTIDADE . ', '
-            . Tabela::ITEM . ' . ' . Tabela_Item::NOME
-            . ' FROM '
-            . Tabela::SAIDA
-            . ' INNER JOIN '
-            . Tabela::ITEM
-            . ' ON '
-            . Tabela::ITEM . ' . ' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . ' . ' . Tabela_Saida::ID_ITEM
-            . ' ORDER BY '
-            . Tabela::SAIDA . ' . ' . Tabela_Saida::DATA_ATUALIZACAO
-            . ' DESC ';
-
-        $resultado = $this->db->query($sql);
-
-        if ($resultado) {
-            return $resultado->result_array();
-        }
-
-        return FALSE;
-    }
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -369,6 +335,71 @@ class Model_Alterar_Saida extends CI_Model
         return FALSE;
     }
 
+    public function ler_nome_destino($id_destino = NULL)
+    {
+        if ($id_destino != NULL) {
+            // SQL Query
+            $sql = ' SELECT '
+                . Tabela::DESTINO . '.' . Tabela_Destino::NOME
+                . ' FROM '
+                . Tabela::DESTINO
+                . ' WHERE '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ?';
+
+            $resultado = $this->db->query($sql, array($id_destino));
+
+            if ($resultado->num_rows() > 0) {
+                $formatar = $resultado->row_array();
+
+                return $formatar['nome'];
+            }
+        }
+
+        return FALSE;
+    }
+
+    public function ler_nome_item($id_item)
+    {
+        // SQL Query
+        $sql = ' SELECT '
+            . Tabela::ITEM . '.' . Tabela_Item::NOME
+            . ' FROM '
+            . Tabela::ITEM
+            . ' WHERE '
+            . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ?';
+
+        $resultado = $this->db->query($sql, array($id_item));
+
+        if ($resultado->num_rows() > 0) {
+            $formatar = $resultado->row_array();
+
+            return $formatar['nome'];
+        }
+
+        return FALSE;
+    }
+
+    public function ler_nome_tipo($id_tipo)
+    {
+        // SQL Query
+        $sql = ' SELECT '
+            . Tabela::TIPO . '.' . Tabela_Tipo::NOME
+            . ' FROM '
+            . Tabela::TIPO
+            . ' WHERE '
+            . Tabela::TIPO . '.' . Tabela_Tipo::ID_TIPO . ' = ?';
+
+        $resultado = $this->db->query($sql, array($id_tipo));
+
+        if ($resultado->num_rows() > 0) {
+            $formatar = $resultado->row_array();
+
+            return $formatar['nome'];
+        }
+
+        return FALSE;
+    }
+
     public function ler_contratos()
     {
         // SQL Query
@@ -387,6 +418,892 @@ class Model_Alterar_Saida extends CI_Model
 
             . ' ORDER BY ' . Tabela::CONTRATO . '.' . Tabela_Contrato::DATA_INICIO . ' DESC ';
         $resultado = $this->db->query($sql);
+
+        if ($resultado) {
+            return $resultado->result_array();
+        }
+
+        return FALSE;
+    }
+
+    public function ler_saidas_data($data_inicio, $data_fim, $soma_quantidade)
+    {
+        if (!$soma_quantidade && $data_inicio >= '2018-09-21') {
+            // SQL Query
+            $sql = 'SELECT '
+                . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ' AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . 'DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y") AS data_saida, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ' AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::VALOR . ' AS valor_item_contrato, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' INNER JOIN '
+                . Tabela::ITEM_CONTRATO
+                . ' ON '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM_CONTRATO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+
+
+
+        } else if (!$soma_quantidade && $data_inicio < '2018-09-21') {
+
+              $sql = 'SELECT '
+              . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ' AS nome_destino, '
+              . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+              . 'DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y") AS data_saida, '
+              . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ' AS quantidade_saida, '
+              . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+              . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+              . ' FROM '
+              . Tabela::SAIDA
+              . ' INNER JOIN '
+              . Tabela::ITEM
+              . ' ON '
+              . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+              . ' INNER JOIN '
+              . Tabela::DESTINO
+              . ' ON '
+              . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+              . ' WHERE '
+              . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+              . ' ORDER BY '
+              . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+              . ' DESC ';
+
+        }else if($soma_quantidade && $data_inicio >= '2018-09-21'){
+          // SQL Query
+          $sql = 'SELECT '
+              . ' IF(COUNT(DISTINCT(' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ')) = 1,  ' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ', "Vários Destinos") AS nome_destino, '
+              . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+              . ' IF(COUNT(DISTINCT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ')) = 1, DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y"), "Várias Datas") AS data_saida, '
+              . ' SUM(' . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ') AS quantidade_saida, '
+              . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+              . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::VALOR . ' AS valor_item_contrato, '
+              . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+              . ' FROM '
+              . Tabela::SAIDA
+              . ' INNER JOIN '
+              . Tabela::ITEM
+              . ' ON '
+              . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+              . ' INNER JOIN '
+              . Tabela::DESTINO
+              . ' ON '
+              . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+              . ' INNER JOIN '
+              . Tabela::ITEM_CONTRATO
+              . ' ON '
+              . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM_CONTRATO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+              . ' WHERE '
+              . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+              . ' GROUP BY '
+              . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+              . ' ORDER BY '
+              . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+              . ' DESC ';
+        }else{
+              // SQL Query
+              $sql = 'SELECT '
+              . ' IF(COUNT(DISTINCT(' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ')) = 1,  ' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ', "Vários Destinos") AS nome_destino, '
+              . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+              . ' IF(COUNT(DISTINCT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ')) = 1, DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y"), "Várias Datas") AS data_saida, '
+              . ' SUM(' . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ') AS quantidade_saida, '
+              . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+              . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+              . ' FROM '
+              . Tabela::SAIDA
+              . ' INNER JOIN '
+              . Tabela::ITEM
+              . ' ON '
+              . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+              . ' INNER JOIN '
+              . Tabela::DESTINO
+              . ' ON '
+              . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+              . ' WHERE '
+              . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+              . ' GROUP BY '
+              . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+              . ' ORDER BY '
+              . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+              . ' DESC ';
+        }
+
+
+
+        $resultado = $this->db->query($sql, array($data_inicio, $data_fim));
+
+        if ($resultado) {
+            return $resultado->result_array();
+        }
+
+        return FALSE;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Lê as saidas cadastradas no banco de dados, filtrando-as pela data de incio, data de fim e id do destino.
+     *
+     * @param $data_inicio Data de início.
+     * @param $data_fim Data de fim.
+     * @param $id_destino Id do destino.
+     * @param $soma_quantidade Soma as quantidades de cada item.
+     * @return bool|array Caso houve algum resultado retorna ele, se não retorna falso.
+     */
+    public function ler_saidas_data_destino($data_inicio, $data_fim, $id_destino, $soma_quantidade)
+    {
+        if (!$soma_quantidade && $data_inicio >= '2018-09-21') {
+            // SQL Query
+            $sql = 'SELECT '
+                . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ' AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . 'DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y") AS data_saida, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ' AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::VALOR . ' AS valor_item_contrato, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' INNER JOIN '
+                . Tabela::ITEM_CONTRATO
+                . ' ON '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM_CONTRATO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO . ' = ?'
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+        } else if (!$soma_quantidade && $data_inicio < '2018-09-21') {
+                $sql = 'SELECT '
+                . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ' AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . 'DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y") AS data_saida, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ' AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO . ' = ?'
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+
+        }else if ($soma_quantidade && $data_inicio >= '2018-09-21'){
+                // SQL Query
+                $sql = 'SELECT '
+                . ' IF(COUNT(DISTINCT(' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ')) = 1,  ' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ', "Vários Destinos") AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . ' IF(COUNT(DISTINCT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ')) = 1, DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y"), "Várias Datas") AS data_saida, '
+                . ' SUM(' . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ') AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::VALOR . ' AS valor_item_contrato, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' INNER JOIN '
+                . Tabela::ITEM_CONTRATO
+                . ' ON '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM_CONTRATO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO . ' = ?'
+                . ' GROUP BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+        }else{
+                // SQL Query
+                $sql = 'SELECT '
+                . ' IF(COUNT(DISTINCT(' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ')) = 1,  ' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ', "Vários Destinos") AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . ' IF(COUNT(DISTINCT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ')) = 1, DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y"), "Várias Datas") AS data_saida, '
+                . ' SUM(' . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ') AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO . ' = ?'
+                . ' GROUP BY '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+        }
+
+        $resultado = $this->db->query($sql, array($data_inicio, $data_fim, $id_destino));
+
+        if ($resultado) {
+            return $resultado->result_array();
+        }
+
+        return FALSE;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Lê as saidas cadastradas no banco de dados, filtrando-as pela data de incio, data de fim, id do destino e
+     * id do tipo.
+     *
+     * @param $data_inicio Data de início.
+     * @param $data_fim Data de fim.
+     * @param $id_destino Id do destino.
+     * @param $id_tipo Id do tipo.
+     * @param $soma_quantidade Soma as quantidades de cada item.
+     * @return bool|array Caso houve algum resultado retorna ele, se não retorna falso.
+     */
+    public function ler_saidas_data_destino_tipo($data_inicio, $data_fim, $id_destino, $id_tipo, $soma_quantidade)
+    {
+        if (!$soma_quantidade && $data_inicio >= '2018-09-21') {
+            // SQL Query
+            $sql = 'SELECT '
+                . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ' AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . 'DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y") AS data_saida, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ' AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::VALOR . ' AS valor_item_contrato, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' INNER JOIN '
+                . Tabela::ITEM_CONTRATO
+                . ' ON '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM_CONTRATO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO . ' = ?'
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ?'
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+        } else if (!$soma_quantidade && $data_inicio < '2018-09-21') {
+            // SQL Query
+            $sql = 'SELECT '
+                . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ' AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . 'DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y") AS data_saida, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ' AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO . ' = ?'
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ?'
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+
+        } else if ($soma_quantidade && $data_inicio >= '2018-09-21') {
+
+            // SQL Query
+            $sql = 'SELECT '
+                . ' IF(COUNT(DISTINCT(' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ')) = 1,  ' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ', "Vários Destinos") AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . ' IF(COUNT(DISTINCT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ')) = 1, DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y"), "Várias Datas") AS data_saida, '
+                . ' SUM(' . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ') AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::VALOR . ' AS valor_item_contrato, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::ITEM_CONTRATO
+                . ' ON '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM_CONTRATO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO . ' = ?'
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ?'
+                . ' GROUP BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+        }else{
+            // SQL Query
+            $sql = 'SELECT '
+                . ' IF(COUNT(DISTINCT(' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ')) = 1,  ' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ', "Vários Destinos") AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . ' IF(COUNT(DISTINCT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ')) = 1, DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y"), "Várias Datas") AS data_saida, '
+                . ' SUM(' . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ') AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO . ' = ?'
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ?'
+                . ' GROUP BY '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+
+        }
+
+        $resultado = $this->db->query($sql, array($data_inicio, $data_fim, $id_destino, $id_tipo));
+
+        if ($resultado) {
+            return $resultado->result_array();
+        }
+
+        return FALSE;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Lê as saidas cadastradas no banco de dados, filtrando-as pela data de incio, data de fim, id do destino,
+     * id do tipo e id do item.
+     *
+     * @param $data_inicio Data de início.
+     * @param $data_fim Data de fim.
+     * @param $id_destino Id do destino.
+     * @param $id_tipo Id do tipo.
+     * @param $id_item Id do item.
+     * @param $soma_quantidade Soma as quantidades de cada item.
+     * @return bool|array Caso houve algum resultado retorna ele, se não retorna falso.
+     */
+    public function ler_saidas_data_destino_tipo_item($data_inicio, $data_fim, $id_destino, $id_tipo, $id_item, $soma_quantidade)
+    {
+        if (!$soma_quantidade && $data_inicio >= '2018-09-21') {
+            // SQL Query
+            $sql = 'SELECT '
+                . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ' AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . 'DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y") AS data_saida, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ' AS quantidade_saida, '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::VALOR . ' AS valor_item_contrato, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' INNER JOIN '
+                . Tabela::ITEM_CONTRATO
+                . ' ON '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM_CONTRATO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ? '
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO . ' = ? '
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ? '
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ? '
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+        } else if (!$soma_quantidade && $data_inicio < '2018-09-21'){
+            // SQL Query
+            $sql = 'SELECT '
+                . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ' AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . 'DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y") AS data_saida, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ' AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ? '
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO . ' = ? '
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ? '
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ? '
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+
+        } else if ($soma_quantidade && $data_inicio >= '2018-09-21'){
+            // SQL Query
+            $sql = 'SELECT '
+                . ' IF(COUNT(DISTINCT(' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ')) = 1,  ' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ', "Vários Destinos") AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . ' IF(COUNT(DISTINCT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ')) = 1, DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y"), "Várias Datas") AS data_saida, '
+                . ' SUM(' . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ') AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::VALOR . ' AS valor_item_contrato, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::ITEM_CONTRATO
+                . ' ON '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM_CONTRATO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ? '
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO . ' = ? '
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ? '
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ? '
+                  . ' GROUP BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+        } else {
+            // SQL Query
+            $sql = 'SELECT '
+                . ' IF(COUNT(DISTINCT(' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ')) = 1,  ' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ', "Vários Destinos") AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . ' IF(COUNT(DISTINCT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ')) = 1, DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y"), "Várias Datas") AS data_saida, '
+                . ' SUM(' . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ') AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ? '
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO . ' = ? '
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ? '
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ? '
+                . ' GROUP BY '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+
+        }
+
+        $resultado = $this->db->query($sql, array($data_inicio, $data_fim, $id_destino, $id_tipo, $id_item));
+
+        if ($resultado) {
+            return $resultado->result_array();
+        }
+
+        return FALSE;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Lê as saidas cadastradas no banco de dados, filtrando-as pela data de incio, data de fim e id do tipo.
+     *
+     * @param $data_inicio Data de início.
+     * @param $data_fim Data de fim.
+     * @param $id_tipo Id do tipo.
+     * @param $soma_quantidade Soma as quantidades de cada item.
+     * @return bool|array Caso houve algum resultado retorna ele, se não retorna falso.
+     */
+    public function ler_saidas_data_tipo($data_inicio, $data_fim, $id_tipo, $soma_quantidade)
+    {
+        if (!$soma_quantidade && $data_inicio >= '2018-09-21') {
+            // SQL Query
+            $sql = 'SELECT '
+                . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ' AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . 'DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y") AS data_saida, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ' AS quantidade_saida, '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::VALOR . ' AS valor_item_contrato, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' INNER JOIN '
+                . Tabela::ITEM_CONTRATO
+                . ' ON '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM_CONTRATO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ?'
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+        } else if (!$soma_quantidade && $data_inicio < '2018-09-21') {
+          // SQL Query
+            $sql = 'SELECT '
+                . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ' AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . 'DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y") AS data_saida, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ' AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ?'
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+
+        } else if ($soma_quantidade && $data_inicio >= '2018-09-21') {
+            // SQL Query
+            $sql = 'SELECT '
+                . ' IF(COUNT(DISTINCT(' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ')) = 1,  ' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ', "Vários Destinos") AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . ' IF(COUNT(DISTINCT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ')) = 1, DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y"), "Várias Datas") AS data_saida, '
+                . ' SUM(' . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ') AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::VALOR . ' AS valor_item_contrato, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' INNER JOIN '
+                . Tabela::ITEM_CONTRATO
+                . ' ON '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM_CONTRATO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ?'
+                . ' GROUP BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+        } else {
+          // SQL Query
+            $sql = 'SELECT '
+                . ' IF(COUNT(DISTINCT(' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ')) = 1,  ' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ', "Vários Destinos") AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . ' IF(COUNT(DISTINCT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ')) = 1, DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y"), "Várias Datas") AS data_saida, '
+                . ' SUM(' . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ') AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ?'
+                . ' GROUP BY '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+        }
+
+        $resultado = $this->db->query($sql, array($data_inicio, $data_fim, $id_tipo));
+
+        if ($resultado) {
+            return $resultado->result_array();
+        }
+
+        return FALSE;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Lê as saidas cadastradas no banco de dados, filtrando-as pela data de incio, data de fim, id do tipo e
+     * id do item.
+     *
+     * @param $data_inicio Data de início.
+     * @param $data_fim Data de fim.
+     * @param $id_tipo Id do tipo.
+     * @param $id_item Id do item.
+     * @param $soma_quantidade Soma as quantidades de cada item.
+     * @return bool|array Caso houve algum resultado retorna ele, se não retorna falso.
+     */
+    public function ler_saidas_data_tipo_item($data_inicio, $data_fim, $id_tipo, $id_item, $soma_quantidade)
+    {
+        if (!$soma_quantidade && $data_inicio >= '2018-09-21') {
+            // SQL Query
+            $sql = 'SELECT '
+                . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ' AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . 'DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y") AS data_saida, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ' AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::VALOR . ' AS valor_item_contrato, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' INNER JOIN '
+                . Tabela::ITEM_CONTRATO
+                . ' ON '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM_CONTRATO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ?'
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM . ' = ?'
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+        } else if (!$soma_quantidade && $data_inicio < '2018-09-21') {
+            // SQL Query
+            $sql = 'SELECT '
+                . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ' AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . 'DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y") AS data_saida, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ' AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ?'
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM . ' = ?'
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+        } else if ($soma_quantidade && $data_inicio >= '2018-09-21') {
+            // SQL Query
+            $sql = 'SELECT '
+                . ' IF(COUNT(DISTINCT(' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ')) = 1,  ' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ', "Vários Destinos") AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . ' IF(COUNT(DISTINCT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ')) = 1, DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y"), "Várias Datas") AS data_saida, '
+                . ' SUM(' . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ') AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::VALOR . ' AS valor_item_contrato, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' INNER JOIN '
+                . Tabela::ITEM_CONTRATO
+                . ' ON '
+                . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM_CONTRATO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ?'
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM . ' = ?'
+                . ' GROUP BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM_CONTRATO
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+        } else {
+            // SQL Query
+            $sql = 'SELECT '
+                . ' IF(COUNT(DISTINCT(' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ')) = 1,  ' . Tabela::DESTINO . '.' . Tabela_Destino::NOME . ', "Vários Destinos") AS nome_destino, '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_SAIDA . ' AS id_saida, '
+                . ' IF(COUNT(DISTINCT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ')) = 1, DATE_FORMAT(' . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ', "%d/%m/%Y"), "Várias Datas") AS data_saida, '
+                . ' SUM(' . Tabela::SAIDA . '.' . Tabela_Saida::QUANTIDADE . ') AS quantidade_saida, '
+                . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
+                . Tabela::ITEM . '.' . Tabela_Item::UNIDADE_PADRAO_ID . ' AS unidade_padrao_id '
+                . ' FROM '
+                . Tabela::SAIDA
+                . ' INNER JOIN '
+                . Tabela::ITEM
+                . ' ON '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM
+                . ' INNER JOIN '
+                . Tabela::DESTINO
+                . ' ON '
+                . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ' . Tabela::SAIDA . '.' . Tabela_Saida::ID_DESTINO
+                . ' WHERE '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA . ' BETWEEN ? AND ?'
+                . ' AND '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_TIPO . ' = ?'
+                . ' AND '
+                . Tabela::SAIDA . '.' . Tabela_Saida::ID_ITEM . ' = ?'
+                . ' GROUP BY '
+                . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM
+                . ' ORDER BY '
+                . Tabela::SAIDA . '.' . Tabela_Saida::DATA
+                . ' DESC ';
+        }
+
+        $resultado = $this->db->query($sql, array($data_inicio, $data_fim, $id_tipo, $id_item));
 
         if ($resultado) {
             return $resultado->result_array();
