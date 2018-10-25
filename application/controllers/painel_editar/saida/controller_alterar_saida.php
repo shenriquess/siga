@@ -235,22 +235,22 @@ class Controller_Alterar_Saida extends CI_Controller
         if (validar_data($formDataInicio, 'd/m/Y') && validar_data($formDataFim, 'd/m/Y')) {
             // Busca pelo data
             if ($formDestino == 0 && $formTipo == 0 && $formItem == 0) {
-                $dados['saidas'] = $this->model_saida_itens->ler_saidas_data($data_inicio_mysql, $data_fim_mysql, $formSomaQuantidade);
+                $dados['saidas'] = $this->model_alterar_saida->ler_saidas_data($data_inicio_mysql, $data_fim_mysql, $formSomaQuantidade);
             } // Busca pela data e destino.
             else if ($formDestino != 0 && $formTipo == 0 && $formItem == 0) {
-                $dados['saidas'] = $this->model_saida_itens->ler_saidas_data_destino($data_inicio_mysql, $data_fim_mysql, $formDestino, $formSomaQuantidade);
+                $dados['saidas'] = $this->model_alterar_saida->ler_saidas_data_destino($data_inicio_mysql, $data_fim_mysql, $formDestino, $formSomaQuantidade);
             } // Busca pela data, destino, tipo.
             else if ($formDestino != 0 && $formTipo != 0 && $formItem == 0) {
-                $dados['saidas'] = $this->model_saida_itens->ler_saidas_data_destino_tipo($data_inicio_mysql, $data_fim_mysql, $formDestino, $formTipo, $formSomaQuantidade);
+                $dados['saidas'] = $this->model_alterar_saida->ler_saidas_data_destino_tipo($data_inicio_mysql, $data_fim_mysql, $formDestino, $formTipo, $formSomaQuantidade);
             } // Busca pela data, destino, tipo e item.
             else if ($formDestino != 0 && $formTipo != 0 && $formItem != 0) {
-                $dados['saidas'] = $this->model_saida_itens->ler_saidas_data_destino_tipo_item($data_inicio_mysql, $data_fim_mysql, $formDestino, $formTipo, $formItem, $formSomaQuantidade);
+                $dados['saidas'] = $this->model_alterar_saida->ler_saidas_data_destino_tipo_item($data_inicio_mysql, $data_fim_mysql, $formDestino, $formTipo, $formItem, $formSomaQuantidade);
             } // Busca pelo tipo.
             else if ($formDestino == 0 && $formTipo != 0 && $formItem == 0) {
-                $dados['saidas'] = $this->model_saida_itens->ler_saidas_data_tipo($data_inicio_mysql, $data_fim_mysql, $formTipo, $formSomaQuantidade);
+                $dados['saidas'] = $this->model_alterar_saida->ler_saidas_data_tipo($data_inicio_mysql, $data_fim_mysql, $formTipo, $formSomaQuantidade);
             } // Busca pelo tipo e item.
             else if ($formDestino == 0 && $formTipo != 0 && $formItem != 0) {
-                $dados['saidas'] = $this->model_saida_itens->ler_saidas_data_tipo_item($data_inicio_mysql, $data_fim_mysql, $formTipo, $formItem, $formSomaQuantidade);
+                $dados['saidas'] = $this->model_alterar_saida->ler_saidas_data_tipo_item($data_inicio_mysql, $data_fim_mysql, $formTipo, $formItem, $formSomaQuantidade);
             }
         } else {
             $dados['erro'] = 1;
