@@ -124,7 +124,7 @@ if (isset($erro)) {
                 </tr>
                 <tr>
                     <td style="width: 11%"><h4 style="font-weight: normal">Telefone: </h4></td>
-                    <td style="width: 89%"><h4 style="font-weight: normal">(031) 3820-1839 - Email: almoxarifado.sme@outlool.com</h4></td>
+                    <td style="width: 89%"><h4 style="font-weight: normal">(031) 3820-1839 - Email: almoxarifado.sme@outlook.com</h4></td>
                 </tr>
             </table>
         </html>';
