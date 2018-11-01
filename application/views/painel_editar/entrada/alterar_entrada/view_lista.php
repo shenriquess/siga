@@ -160,7 +160,7 @@
                       <div class="col-md-4">
                           <hr/>
                       </div>
-                      <div class="col-md-3">
+                      <div class="col-md-4">
                           <button id="botaoListaPesquisar" class="btn btn-success btn-block">Pesquisar</button>
                       </div>
 
