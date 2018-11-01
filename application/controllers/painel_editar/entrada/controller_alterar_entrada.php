@@ -170,21 +170,99 @@ class Controller_Alterar_Entrada extends CI_Controller
         $this->load->view('painel_editar/entrada/alterar_entrada/view_excluir.php', $dados);
     }
 
-    //------------------------------------------------------------------------------------------------------------------
-
     /**
-     * Página que lista todos as entradas cadastradas.
+     * Página de pesquisa do relatório de entrada de intes.
      *
-     * url - {root}/paineleditar/entrada/alterarentrada/lista
+     * url - {root}/painel/relatorio/entradaitens/lista
+     * url - {root}/painel/relatorio/entradaitens/lista/expandir
+     * url - {root}/painel/relatorio/entradaitens/lista/expandir/pdf
      */
     public function lista()
     {
-        $this->load->helper('text');
+        // Carregando componentes.
+        $this->load->helper('date');
+        $this->load->helper('data');
+        $this->load->helper('pdf');
+        $this->load->library('unidades');
+        $this->load->model('painel/relatorio/model_entrada_itens', 'model_entrada_itens');
 
-        $dados['entradas'] = $this->model_alterar_entrada->ler_entradas();
-        $dados['unidades'] = $this->unidades->ler_unidades_padrao();
+        // Lendo os posts.
+        $formContrato = $this->input->post('formContrato', TRUE);
+        $formDataInicio = $this->input->post('formDataInicio', TRUE);
+        $formDataFim = $this->input->post('formDataFim', TRUE);
+        $formFornecedor = $this->input->post('formFornecedor', TRUE);
+        $formItem = $this->input->post('formItem', TRUE);
+        $formTipo = $this->input->post('formTipo', TRUE);
+
+        // Transformando a data escolhida para formato do MySQL
+        $data_inicio_mysql = data_normal_para_MySQL($formDataInicio);
+        $data_fim_mysql = data_normal_para_MySQL($formDataFim);
+
+        // Validando formato da data.
+        if (validar_data($formDataInicio, 'd/m/Y') && validar_data($formDataFim, 'd/m/Y')) {
+            // Busca pela data.
+            if ($formContrato == 0 && $formTipo == 0 && $formItem == 0) {
+                $dados['entradas'] = $this->model_alterar_entrada->ler_entradas_data($data_inicio_mysql, $data_fim_mysql);
+            } // Busca pela data e contrato.
+            else if ($formContrato > 0 && $formTipo == 0 && $formItem == 0) {
+                $dados['entradas'] = $this->model_alterar_entrada->ler_entradas_data_contrato($data_inicio_mysql, $data_fim_mysql, $formContrato);
+            } // Busca pela data, contrato e tipo.
+            else if ($formContrato > 0 && $formTipo > 0 && $formItem == 0) {
+                $dados['entradas'] = $this->model_alterar_entrada->ler_entradas_data_contrato_tipo($data_inicio_mysql, $data_fim_mysql, $formContrato, $formTipo);
+            } // Busca pela data, contrato, tipo e item.
+            else if ($formContrato > 0 && $formTipo > 0 && $formItem > 0) {
+                $dados['entradas'] = $this->model_alterar_entrada->ler_entradas_data_contrato_tipo_item($data_inicio_mysql, $data_fim_mysql, $formContrato, $formTipo, $formItem);
+            } // Busca pela data e fornecedor.
+            else if ($formContrato == 0 && $formFornecedor > 0 && $formTipo == 0 && $formItem == 0) {
+                $dados['entradas'] = $this->model_alterar_entrada->ler_entradas_data_fornecedor($data_inicio_mysql, $data_fim_mysql, $formFornecedor);
+            } // Busca pela data, fornecedor e tipo.
+            else if ($formContrato == 0 && $formFornecedor > 0 && $formTipo > 0 && $formItem == 0) {
+                $dados['entradas'] = $this->model_alterar_entrada->ler_entradas_data_fornecedor_tipo($data_inicio_mysql, $data_fim_mysql, $formFornecedor, $formTipo);
+            } // Busca pela data, fornecedor, tipo e item.
+            else if ($formContrato == 0 && $formFornecedor > 0 && $formTipo > 0 && $formItem > 0) {
+                $dados['entradas'] = $this->model_alterar_entrada->ler_entradas_data_fornecedor_tipo_item($data_inicio_mysql, $data_fim_mysql, $formFornecedor, $formTipo, $formItem);
+            } // Busca pela data e tipo.
+            else if ($formContrato == 0 && $formFornecedor == 0 && $formTipo > 0 && $formItem == 0) {
+                $dados['entradas'] = $this->model_alterar_entrada->ler_entradas_data_tipo($data_inicio_mysql, $data_fim_mysql, $formTipo);
+            } // Busca pela data, tipo e item.
+            else if ($formContrato == 0 && $formFornecedor == 0 && $formTipo > 0 && $formItem > 0) {
+                $dados['entradas'] = $this->model_alterar_entrada->ler_entradas_data_tipo_item($data_inicio_mysql, $data_fim_mysql, $formTipo, $formItem);
+            }
+        } else {
+            $dados['erro'] = 1;
+            $dados['erro_mensagem'] = 'O formato das <b>datas</b> inseridas é invalida.';
+        }
+
+        // Lendo os dados cadastrados no banco de dados.
+        $dados['fornecedores_contratos'] = $this->model_alterar_entrada->ler_fornecedores_contratos();
+        $dados['fornecedores'] = $this->model_alterar_entrada->ler_fornecedores();
+        $dados['itens'] = $this->model_alterar_entrada->ler_itens();
+        $dados['nome_fornecedor'] = $this->model_alterar_entrada->ler_nome_fornecedor($formFornecedor);
+        $dados['nome_item'] = $this->model_alterar_entrada->ler_nome_item($formItem);
+        $dados['nome_tipo'] = $this->model_alterar_entrada->ler_nome_tipo($formTipo);
+        $dados['nome_fornecedor_contrato'] = $this->model_alterar_entrada->ler_nome_fornecedor_contrato($formContrato);
+        $dados['unidade_padrao'] = $this->unidades->ler_unidades_padrao();
+        $dados['tipos'] = $this->model_alterar_entrada->ler_tipos();
+
+        // Enviando dados para a view.
+        $dados['formContrato'] = $formContrato;
+        $dados['formItem'] = $formItem;
+        $dados['formDataInicio'] = $formDataInicio;
+        $dados['formDataFim'] = $formDataFim;
+        $dados['formFornecedor'] = $formFornecedor;
+        $dados['formTipo'] = $formTipo;
         $dados['nome_usuario'] = $this->nome_usuario;
+
+        // EXPANDIR
+
+        if ($formDataInicio == NULL && $formDataFim == NULL) {
+            $dados['entradas'] = $this->model_alterar_entrada->ler_entradas_data(Date('Y-m-d', strtotime("-7 days")), Date('Y-m-d'));
+            $dados['formDataFim'] = data_MySQL_para_normal(Date('Y-m-d'));
+            $dados['formDataInicio'] = data_MySQL_para_normal(Date('Y-m-d', strtotime("-7 days")));
+        }
         $this->load->view('painel_editar/entrada/alterar_entrada/view_lista.php', $dados);
+
+
     }
 }
 
