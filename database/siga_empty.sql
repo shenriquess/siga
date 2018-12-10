@@ -482,7 +482,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'Secretaria de Educação','admin','b80ca321f2c2c3bc51dda6cfc9dd6e5d',0,'2015-02-10 18:19:50','2015-02-12 16:22:40'),(2,'Almoxarifado Educação','Raquel','690c0ca1d95dd5731d948c48d9f3ae8a',1,'2015-02-12 16:26:19','2015-02-12 16:26:19'),(3,'Secretaria de Educação','Cornelia','9d6f0e7faa62a99f5e5d4ea6e9d73666',1,'2015-02-12 16:34:51','2015-02-12 16:38:48'),(4,'Alimentação Escolar','Aniquele','ff2326fdccb109e985d2ea6c22016eea',1,'2015-02-12 16:42:51','2015-02-12 16:42:51'),(5,'Alimentação Escolar','Fernanda','ff2326fdccb109e985d2ea6c22016eea',2,'2015-02-12 16:45:16','2015-02-12 16:45:16');
+INSERT INTO `usuario` VALUES (1,'Secretaria de Educação','admin','b80ca321f2c2c3bc51dda6cfc9dd6e5d',0,'2015-02-10 18:19:50','2015-02-12 16:22:40'),(2,'Almoxarifado Educação','Raquel','690c0ca1d95dd5731d948c48d9f3ae8a',0,'2015-02-12 16:26:19','2015-02-12 16:26:19'),(3,'Secretaria de Educação','Cornelia','9d6f0e7faa62a99f5e5d4ea6e9d73666',0,'2015-02-12 16:34:51','2015-02-12 16:38:48'),(4,'Alimentação Escolar','Aniquele','ff2326fdccb109e985d2ea6c22016eea',0,'2015-02-12 16:42:51','2015-02-12 16:42:51'),(5,'Alimentação Escolar','Camila','ff2326fdccb109e985d2ea6c22016eea',0,'2015-02-12 16:45:16','2015-02-12 16:45:16');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
