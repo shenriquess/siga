@@ -31,7 +31,7 @@ $ativarMenu[$posicao] = "active";
     </span>
   </a>
   <ul class="treeview-menu">
-    <li class="<?php echo $ativarMenu[9] ?>"><a href="<?php echo base_url("/paineleditar/administrador/dadosadministrador/alterar") ?>"><i class="fa fa-circle-o"></i> Dados Administrador</a></li>
+    <li class="<?php echo $ativarMenu[9] ?>"><a href="<?php echo base_url("/paineleditar/administrador/dadosadministrador/alterar") ?>"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Dados Administrador</a></li>
   </ul>
 </li>
 <li class="treeview <?php echo $ativarMenu[1] ?> ">
@@ -42,7 +42,7 @@ $ativarMenu[$posicao] = "active";
     </span>
   </a>
   <ul class="treeview-menu">
-    <li class="<?php echo $ativarMenu[1] ?>"><a href="<?php echo base_url("/paineleditar/entrada/alterarentrada/lista") ?>"><i class="fa fa-circle-o"></i> Alterar Entrada</a></li>
+    <li class="<?php echo $ativarMenu[1] ?>"><a href="<?php echo base_url("/paineleditar/entrada/alterarentrada/lista") ?>"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Alterar Entrada</a></li>
   </ul>
 </li>
 
@@ -55,7 +55,7 @@ $ativarMenu[$posicao] = "active";
     </span>
   </a>
   <ul class="treeview-menu">
-    <li class="<?php echo $ativarMenu[2] ?>"><a  href="<?php echo base_url("/paineleditar/saida/alterarsaida/lista") ?>"><i class="fa fa-circle-o"></i> Alterar Saída</a></li>
+    <li class="<?php echo $ativarMenu[2] ?>"><a  href="<?php echo base_url("/paineleditar/saida/alterarsaida/lista") ?>"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Alterar Saída</a></li>
   </ul>
 </li>
 <li class="treeview <?php echo $ativarMenu[3] ?> <?php echo $ativarMenu[4] ?> <?php echo $ativarMenu[5] ?> <?php echo $ativarMenu[6] ?> <?php echo $ativarMenu[7] ?> <?php echo $ativarMenu[8] ?> ">
@@ -66,12 +66,12 @@ $ativarMenu[$posicao] = "active";
     </span>
   </a>
   <ul class="treeview-menu">
-    <li class="<?php echo $ativarMenu[3] ?>"><a href="<?php echo base_url("/paineleditar/configuracoes/alterarcontrato/lista") ?>"><i class="fa fa-circle-o"></i> Alterar Contrato</a></li>
-    <li class="<?php echo $ativarMenu[4] ?>"><a href="<?php echo base_url("/paineleditar/configuracoes/alterardestino/lista") ?>"><i class="fa fa-circle-o"></i> Alterar Destino</a></li>
-    <li class="<?php echo $ativarMenu[5] ?>"><a href="<?php echo base_url("/paineleditar/configuracoes/alterarfornecedor/lista") ?>"><i class="fa fa-circle-o"></i> Alterar Fornecedor</a></li>
-    <li class="<?php echo $ativarMenu[6] ?>"><a href="<?php echo base_url("/paineleditar/configuracoes/alteraritem/lista") ?>"><i class="fa fa-circle-o"></i> Alterar Item</a></li>
-    <li class="<?php echo $ativarMenu[7] ?>"><a href="<?php echo base_url("/paineleditar/configuracoes/alterartipo/lista") ?>"><i class="fa fa-circle-o"></i> Alterar Tipo</a></li>
-    <li class="<?php echo $ativarMenu[8] ?>"><a href="<?php echo base_url("/paineleditar/configuracoes/alterarusuario/lista")  ?>"><i class="fa fa-circle-o"></i> Alterar Usuário</a></li>
+    <li class="<?php echo $ativarMenu[3] ?>"><a href="<?php echo base_url("/paineleditar/configuracoes/alterarcontrato/lista") ?>"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Alterar Contrato</a></li>
+    <li class="<?php echo $ativarMenu[4] ?>"><a href="<?php echo base_url("/paineleditar/configuracoes/alterardestino/lista") ?>"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Alterar Destino</a></li>
+    <li class="<?php echo $ativarMenu[5] ?>"><a href="<?php echo base_url("/paineleditar/configuracoes/alterarfornecedor/lista") ?>"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Alterar Fornecedor</a></li>
+    <li class="<?php echo $ativarMenu[6] ?>"><a href="<?php echo base_url("/paineleditar/configuracoes/alteraritem/lista") ?>"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Alterar Item</a></li>
+    <li class="<?php echo $ativarMenu[7] ?>"><a href="<?php echo base_url("/paineleditar/configuracoes/alterartipo/lista") ?>"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Alterar Tipo</a></li>
+    <li class="<?php echo $ativarMenu[8] ?>"><a href="<?php echo base_url("/paineleditar/configuracoes/alterarusuario/lista")  ?>"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Alterar Usuário</a></li>
   </ul>
 </li>
 <li>

@@ -40,7 +40,7 @@ if($nivel == 0) {
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li class="'.$ativar_menu[0].'"><a href="'.base_url("/painel/entrada/inserirentrada/cadastrar").'"><i class="fa fa-circle-o"></i> Inserir Entrada</a></li>
+                <li class="'.$ativar_menu[0].'"><a href="'.base_url("/painel/entrada/inserirentrada/cadastrar").'"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Inserir Entrada</a></li>
               </ul>
             </li>
             <li class="treeview '.$ativar_menu[1].' ">
@@ -52,7 +52,7 @@ if($nivel == 0) {
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li class="'.$ativar_menu[1].'"><a href="'.base_url("/painel/saida/inserirsaida/cadastrar").'"><i class="fa fa-circle-o"></i> Inserir Saída</a></li>
+                <li class="'.$ativar_menu[1].'"><a href="'.base_url("/painel/saida/inserirsaida/cadastrar").'"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Inserir Saída</a></li>
               </ul>
             </li>
             <li class="treeview '.$ativar_menu[2].' '.$ativar_menu[4].' '.$ativar_menu[3].' '.$ativar_menu[6].'">
@@ -64,10 +64,10 @@ if($nivel == 0) {
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li class="'.$ativar_menu[2].'"><a href="'.base_url("/painel/relatorio/balancocontratos/lista").'"><i class="fa fa-circle-o"></i> Balanço de Contratos</a></li>
-                <li class="'.$ativar_menu[4].'"><a href="'.base_url("/painel/relatorio/entradaitens/lista").'"><i class="fa fa-circle-o"></i> Entrada de Itens</a></li>
-                <li class="'.$ativar_menu[3].'"><a href="'.base_url("/painel/relatorio/estoquedisponivel/lista").'"><i class="fa fa-circle-o"></i> Estoque Disponível</a></li>
-                <li class="'.$ativar_menu[6].'"><a href="'.base_url("/painel/relatorio/saidaitens/lista").'"><i class="fa fa-circle-o"></i> Saída de Itens</a></li>
+                <li class="'.$ativar_menu[2].'"><a href="'.base_url("/painel/relatorio/balancocontratos/lista").'"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Balanço de Contratos</a></li>
+                <li class="'.$ativar_menu[4].'"><a href="'.base_url("/painel/relatorio/entradaitens/lista").'"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Entrada de Itens</a></li>
+                <li class="'.$ativar_menu[3].'"><a href="'.base_url("/painel/relatorio/estoquedisponivel/lista").'"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Estoque Disponível</a></li>
+                <li class="'.$ativar_menu[6].'"><a href="'.base_url("/painel/relatorio/saidaitens/lista").'"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Saída de Itens</a></li>
               </ul>
             </li>
             <li class="treeview '.$ativar_menu[7].' '.$ativar_menu[8].' '.$ativar_menu[9].' '.$ativar_menu[10].' '.$ativar_menu[11].' '.$ativar_menu[12].'">
@@ -78,12 +78,12 @@ if($nivel == 0) {
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li class="'.$ativar_menu[7].'"><a href="'.base_url("/painel/configuracoes/cadastrarcontrato/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Contrato</a></li>
-                <li class="'.$ativar_menu[8].'"><a href="'.base_url("/painel/configuracoes/cadastrardestino/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Destino</a></li>
-                <li class="'.$ativar_menu[9].'"><a href="'.base_url("/painel/configuracoes/cadastrarfornecedor/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Fornecedor</a></li>
-                <li class="'.$ativar_menu[10].'"><a href="'.base_url("/painel/configuracoes/cadastraritem/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Item</a></li>
-                <li class="'.$ativar_menu[11].'"><a  href="'.base_url("/painel/configuracoes/cadastrartipo/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Tipo</a></li>
-                <li class="'.$ativar_menu[12].'"><a href="'.base_url("/painel/configuracoes/cadastrarusuario/cadastrar") .'"><i class="fa fa-circle-o"></i> Cadastrar Usuário</a></li>
+                <li class="'.$ativar_menu[7].'"><a href="'.base_url("/painel/configuracoes/cadastrarcontrato/cadastrar").'"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Cadastrar Contrato</a></li>
+                <li class="'.$ativar_menu[8].'"><a href="'.base_url("/painel/configuracoes/cadastrardestino/cadastrar").'"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Cadastrar Destino</a></li>
+                <li class="'.$ativar_menu[9].'"><a href="'.base_url("/painel/configuracoes/cadastrarfornecedor/cadastrar").'"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Cadastrar Fornecedor</a></li>
+                <li class="'.$ativar_menu[10].'"><a href="'.base_url("/painel/configuracoes/cadastraritem/cadastrar").'"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Cadastrar Item</a></li>
+                <li class="'.$ativar_menu[11].'"><a  href="'.base_url("/painel/configuracoes/cadastrartipo/cadastrar").'"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Cadastrar Tipo</a></li>
+                <li class="'.$ativar_menu[12].'"><a href="'.base_url("/painel/configuracoes/cadastrarusuario/cadastrar") .'"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Cadastrar Usuário</a></li>
               </ul>
             </li>
             <li class="treeview '.$ativar_menu[14].'">
@@ -94,7 +94,7 @@ if($nivel == 0) {
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li class="'.$ativar_menu[14].'"><a href="'.base_url("/painel/administracao/login").'"><i class="fa fa-circle-o"></i> Alterar Informações</a></li>
+                <li class="'.$ativar_menu[14].'"><a href="'.base_url("/painel/administracao/login").'"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Alterar Informações</a></li>
               </ul>
             </li>
             </section>
@@ -119,7 +119,7 @@ else if($nivel == 1)
               </span>
             </a>
             <ul class="treeview-menu">
-              <li class="'.$ativar_menu[0].'"><a href="'.base_url("/painel/entrada/inserirentrada/cadastrar").'"><i class="fa fa-circle-o"></i> Inserir Entrada</a></li>
+              <li class="'.$ativar_menu[0].'"><a href="'.base_url("/painel/entrada/inserirentrada/cadastrar").'"><i class="fa fa-circle-o"></i> &nbsp;&nbsp;Inserir Entrada</a></li>
             </ul>
           </li>
           <li class="treeview '.$ativar_menu[1].' ">
@@ -131,7 +131,7 @@ else if($nivel == 1)
               </span>
             </a>
             <ul class="treeview-menu">
-              <li class="'.$ativar_menu[1].'"><a href="'.base_url("/painel/saida/inserirsaida/cadastrar").'"><i class="fa fa-circle-o"></i> Inserir Saída</a></li>
+              <li class="'.$ativar_menu[1].'"><a href="'.base_url("/painel/saida/inserirsaida/cadastrar").'"><i class="fa fa-circle-o"></i> &nbsp;&nbsp;Inserir Saída</a></li>
             </ul>
           </li>
           <li class="treeview '.$ativar_menu[2].' '.$ativar_menu[4].' '.$ativar_menu[3].' '.$ativar_menu[6].'">
@@ -143,10 +143,10 @@ else if($nivel == 1)
               </span>
             </a>
             <ul class="treeview-menu">
-              <li class="'.$ativar_menu[2].'"><a href="'.base_url("/painel/relatorio/balancocontratos/lista").'"><i class="fa fa-circle-o"></i> Balanço de Contratos</a></li>
-              <li class="'.$ativar_menu[4].'"><a href="'.base_url("/painel/relatorio/entradaitens/lista").'"><i class="fa fa-circle-o"></i> Entrada de Itens</a></li>
-              <li class="'.$ativar_menu[3].'"><a href="'.base_url("/painel/relatorio/estoquedisponivel/lista").'"><i class="fa fa-circle-o"></i> Estoque Disponível</a></li>
-              <li class="'.$ativar_menu[6].'"><a href="'.base_url("/painel/relatorio/saidaitens/lista").'"><i class="fa fa-circle-o"></i> Saída de Itens</a></li>
+              <li class="'.$ativar_menu[2].'"><a href="'.base_url("/painel/relatorio/balancocontratos/lista").'"><i class="fa fa-circle-o"></i> &nbsp;&nbsp;Balanço de Contratos</a></li>
+              <li class="'.$ativar_menu[4].'"><a href="'.base_url("/painel/relatorio/entradaitens/lista").'"><i class="fa fa-circle-o"></i> &nbsp;&nbsp;Entrada de Itens</a></li>
+              <li class="'.$ativar_menu[3].'"><a href="'.base_url("/painel/relatorio/estoquedisponivel/lista").'"><i class="fa fa-circle-o"></i> &nbsp;&nbsp;Estoque Disponível</a></li>
+              <li class="'.$ativar_menu[6].'"><a href="'.base_url("/painel/relatorio/saidaitens/lista").'"><i class="fa fa-circle-o"></i> &nbsp;&nbsp;Saída de Itens</a></li>
             </ul>
           </li>
           <li class="treeview '.$ativar_menu[7].' '.$ativar_menu[8].' '.$ativar_menu[9].' '.$ativar_menu[10].' '.$ativar_menu[11].'">
@@ -157,11 +157,11 @@ else if($nivel == 1)
               </span>
             </a>
             <ul class="treeview-menu">
-              <li class="'.$ativar_menu[7].'"><a href="'.base_url("/painel/configuracoes/cadastrarcontrato/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Contrato</a></li>
-              <li class="'.$ativar_menu[8].'"><a href="'.base_url("/painel/configuracoes/cadastrardestino/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Destino</a></li>
-              <li class="'.$ativar_menu[9].'"><a href="'.base_url("/painel/configuracoes/cadastrarfornecedor/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Fornecedor</a></li>
-              <li class="'.$ativar_menu[10].'"><a href="'.base_url("/painel/configuracoes/cadastraritem/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Item</a></li>
-              <li class="'.$ativar_menu[11].'"><a  href="'.base_url("/painel/configuracoes/cadastrartipo/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Tipo</a></li>
+              <li class="'.$ativar_menu[7].'"><a href="'.base_url("/painel/configuracoes/cadastrarcontrato/cadastrar").'"><i class="fa fa-circle-o"></i> &nbsp;&nbsp;Cadastrar Contrato</a></li>
+              <li class="'.$ativar_menu[8].'"><a href="'.base_url("/painel/configuracoes/cadastrardestino/cadastrar").'"><i class="fa fa-circle-o"></i> &nbsp;&nbsp;Cadastrar Destino</a></li>
+              <li class="'.$ativar_menu[9].'"><a href="'.base_url("/painel/configuracoes/cadastrarfornecedor/cadastrar").'"><i class="fa fa-circle-o"></i> &nbsp;&nbsp;Cadastrar Fornecedor</a></li>
+              <li class="'.$ativar_menu[10].'"><a href="'.base_url("/painel/configuracoes/cadastraritem/cadastrar").'"><i class="fa fa-circle-o"></i> &nbsp;&nbsp;Cadastrar Item</a></li>
+              <li class="'.$ativar_menu[11].'"><a  href="'.base_url("/painel/configuracoes/cadastrartipo/cadastrar").'"><i class="fa fa-circle-o"></i> &nbsp;&nbsp;Cadastrar Tipo</a></li>
             </ul>
           </li>
 
@@ -187,7 +187,7 @@ else if($nivel == 2)
               </span>
             </a>
             <ul class="treeview-menu">
-              <li class="'.$ativar_menu[0].'"><a href="'.base_url("/painel/entrada/inserirentrada/cadastrar").'"><i class="fa fa-circle-o"></i> Inserir Entrada</a></li>
+              <li class="'.$ativar_menu[0].'"><a href="'.base_url("/painel/entrada/inserirentrada/cadastrar").'"><i class="fa fa-circle-o"></i> &nbsp;&nbsp;Inserir Entrada</a></li>
             </ul>
           </li>
           <li class="treeview '.$ativar_menu[1].' ">
@@ -199,10 +199,10 @@ else if($nivel == 2)
               </span>
             </a>
             <ul class="treeview-menu">
-              <li class="'.$ativar_menu[1].'"><a href="'.base_url("/painel/saida/inserirsaida/cadastrar").'"><i class="fa fa-circle-o"></i> Inserir Saída</a></li>
+              <li class="'.$ativar_menu[1].'"><a href="'.base_url("/painel/saida/inserirsaida/cadastrar").'"><i class="fa fa-circle-o"></i> &nbsp;&nbsp;Inserir Saída</a></li>
             </ul>
           </li>
-          
+
           </section>
           <!-- /.sidebar -->
           </aside>';
