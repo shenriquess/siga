@@ -74,9 +74,9 @@ $ativarMenu[$posicao] = "active";
     <li class="<?php echo $ativarMenu[8] ?>"><a href="<?php echo base_url("/paineleditar/configuracoes/alterarusuario/lista")  ?>"><i class="fas fa-genderless"></i> &nbsp;&nbsp;Alterar Usuário</a></li>
   </ul>
 </li>
-<li>
-  <a href="<?php echo base_url("/painel/home"); ?>">
-  </i> <span class="btn btn-warning">Voltar para SiGA Inserção</span>
+<li >
+  <a class="alert alert-warning" href="<?php echo base_url("/painel/home"); ?>">
+    <i class="fa  fa-reply"></i> <span>Voltar para SiGA Inserção</span>
   </a>
 </li>
 </section>
