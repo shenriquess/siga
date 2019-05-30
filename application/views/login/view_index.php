@@ -7,23 +7,38 @@
     <title>Login - SiGA</title>
     <link href="<?php echo base_url('/css/bootstrap.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/bootstrap-theme.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link href="<?php echo base_url('/css/font-awesome.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo base_url('/css/style.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo base_url('/css/AdminLTE.css') ?>">
+    <link rel="stylesheet" href="<?php echo base_url('/css/_all-skins.css') ?>">
     <!--[if lt IE 9]>
     <script src="<?php echo base_url('/js/html5shiv.min.js') ?>"></script>
     <script src="<?php echo base_url('/js/respond.min.js') ?>"></script>
     <![endif]-->
 </head>
-<body>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+  <header class="main-header">
+    <a href="<?php echo base_url('/painel/home') ?>" class="logo">
+    <!-- mini logo for sidebar mini 50x50 pixels -->
+    <span class="logo-mini"><b>S</b>iG</span>
+    <!-- logo for regular state and mobile devices -->
+    <span class="logo-lg"><b>SiGA</b></span>
+    </a>
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
 
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="<?php echo base_url('/painel/home') ?>"><b>SiGA</b></a>
-        </div>
-    </div>
-</nav>
+        <div class="navbar-custom-menu">
+            <!--div class="navbar-header">
+                <a class="navbar-brand" href="<?php echo base_url('/painel/home') ?>"><b>SiGA</b></a>
+            </div-->
 
+            </div>
+    </nav>
+  </header>
 
+<div class="content">
 <?php
 if (isset($erros)) {
     if ($erros == 1) {
@@ -44,7 +59,7 @@ if (isset($erros)) {
 }
 ?>
 
-<div class="content">
+
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="col-md-4 col-md-offset-4">
@@ -108,9 +123,12 @@ if (isset($erros)) {
         </div>
     </div>
 </div>
+</div>
 
 <script src="<?php echo base_url('/js/jquery-2.1.1.min.js') ?>"></script>
 <script src="<?php echo base_url('/js/bootstrap.min.js') ?>"></script>
+<script src="<?php echo base_url('/js/jquery.slimscroll.min.js') ?>"></script>
+<script src="<?php echo base_url('/js/adminlte.js') ?>"></script>
 
 </body>
 </html>

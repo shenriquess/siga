@@ -77,12 +77,16 @@ class Model_Alterar_Destino extends CI_Model
      */
     public function excluir_destino($id_destino)
     {
+        $this->db->where('id_destino', $id_destino);
+        $test = $this->db->get('saida');
+
         $sql = ' DELETE FROM '
             . Tabela::DESTINO
             . ' WHERE '
             . Tabela::DESTINO . '.' . Tabela_Destino::ID_DESTINO . ' = ?';
 
-        if ($this->db->query($sql, array($id_destino))) {
+        if (empty($test->result_array())) {
+          $this->db->query($sql, array($id_destino));
             return TRUE;
         }
 

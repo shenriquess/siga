@@ -71,7 +71,7 @@ class Controller_Entrada_itens extends CI_Controller
         // Validando formato da data.
         if (validar_data($formDataInicio, 'd/m/Y') && validar_data($formDataFim, 'd/m/Y')) {
             // Busca pela data.
-            if ($formContrato == 0 && $formTipo == 0 && $formItem == 0) {
+            if ($formContrato == 0 && $formTipo == 0 && $formItem == 0 ) {
                 $dados['entradas'] = $this->model_entrada_itens->ler_entradas_data($data_inicio_mysql, $data_fim_mysql);
             } // Busca pela data e contrato.
             else if ($formContrato > 0 && $formTipo == 0 && $formItem == 0) {
@@ -98,6 +98,7 @@ class Controller_Entrada_itens extends CI_Controller
             else if ($formContrato == 0 && $formFornecedor == 0 && $formTipo > 0 && $formItem > 0) {
                 $dados['entradas'] = $this->model_entrada_itens->ler_entradas_data_tipo_item($data_inicio_mysql, $data_fim_mysql, $formTipo, $formItem);
             }
+
         } else {
             $dados['erro'] = 1;
             $dados['erro_mensagem'] = 'O formato das <b>datas</b> inseridas é invalida.';

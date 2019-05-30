@@ -375,7 +375,6 @@ $(document).ready(function () {
      * Limpa ou zera os campos do adicionar novo item.
      */
     function limparCamposItem() {
-        $('#formTipo').val(0);
         $('#formItem').val(0);
         $('#formQuantidade').val('');
         $('#formUnidade').empty();

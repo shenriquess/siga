@@ -260,18 +260,22 @@ class Controller_Alterar_Contrato extends CI_Controller
      */
     private function excluir_contrato()
     {
+
         $id_contrato = $this->uri->segment(6);
+
 
         // Inicializando variáveis.
         $dados['sucesso'] = FALSE;
         $dados['erro'] = FALSE;
         $dados['erro_mensagem'] = "";
 
+
         if ($this->model_alterar_contrato->checar_contrato($id_contrato)) {
             $dados['item_contrato'] = $this->model_alterar_contrato->ler_contrato($id_contrato);
             $resultado = $this->model_alterar_contrato->excluir_contrato($id_contrato);
             if ($resultado) {
                 $dados['sucesso'] = TRUE;
+
             } else {
                 $dados['erro'] = TRUE;
                 $dados['erro_mensagem'] = "O contrato escolhido não pode ser deletado pois há dependências.";

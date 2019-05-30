@@ -7,23 +7,31 @@
     <title>Cadastrar Usuário - Configurações - SiGA</title>
     <link href="<?php echo base_url('/css/bootstrap.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/bootstrap-theme.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link href="<?php echo base_url('/css/font-awesome.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/pnotify.custom.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/style.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo base_url('/css/AdminLTE.css') ?>">
+    <link rel="stylesheet" href="<?php echo base_url('/css/_all-skins.css') ?>">
     <!--[if lt IE 9]>
     <script src="<?php echo base_url('/js/html5shiv.min.js') ?>"></script>
     <script src="<?php echo base_url('/js/respond.min.js') ?>"></script>
     <![endif]-->
 </head>
-<body>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
 
 <?php $this->load->view('common/view_header.php'); ?>
+<?php $this->load->view('common/view_menu_painel', array('posicao' => 12)); ?>
+
+<div class="content-wrapper">
+  <section class="content">
 
 <?php
 // Inserção realizada com sucesso.
 if (isset($sucesso)) {
     if ($sucesso === 1) {
-        echo '<div class="container-fluid">
+        echo '<div class="container">
                     <div id="alertaSucesso" class="row">
                         <div class="col-md-4 col-md-offset-4">
                             <div class="alert alert-success alert-dismissible" role="alert">
@@ -42,7 +50,7 @@ if (isset($sucesso)) {
 // Caso houve um erro no momento da inserção.
 if (isset($erro)) {
     if ($erro === 1 && $erro_mensagem != "") {
-        echo '<div class="container-fluid">
+        echo '<div class="container">
                     <div id="alertaErro" class="row">
                         <div class="col-md-4 col-md-offset-4">
                             <div class="alert alert-danger alert-dismissible" role="alert">
@@ -60,13 +68,11 @@ if (isset($erro)) {
 ?>
 
 
-<div class="container">
+
     <div class="row">
-        <?php $this->load->view('common/view_menu_painel', array('posicao' => 12)); ?>
-        <div class="col-md-7">
-            Bem Vindo <b><?php echo $nome_usuario; ?></b>
-            <a class="pull-right" href="<?php echo base_url('/painel/logout') ?>">Sair do Sistema</a>
-            <hr>
+      <div class="col-md-2"></div>
+        <div class="col-md-8">
+
             <div class="panel panel-default">
                 <div class="panel-heading text-center">
                     <p class="header-painel">Cadastrar Usuário</p>
@@ -74,18 +80,15 @@ if (isset($erro)) {
                 <div class="panel-body">
                     <form id="formCadastrarUsuario" action="<?php echo base_url('/painel/configuracoes/cadastrarusuario/cadastrar'); ?>" method="post">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="formNomeCompleto" class="control-label"><span style="color: #ac2925">*</span>Nome Completo:</label>
                                     <input id="formNomeCompleto" name="formNomeCompleto" type="text" class="form-control"
                                            placeholder="Insira o nome completo do novo usuário..." />
                                 </div>
                             </div>
-                        </div>
-                        <br/>
 
-                        <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="formUsuario" class="control-label"><span style="color: #ac2925">*</span>Usuário:</label>
                                     <input id="formUsuario" name="formUsuario" type="text" class="form-control" placeholder="Insira o Usuário..." autocomplete="off" />
@@ -95,25 +98,20 @@ if (isset($erro)) {
                         <br/>
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="formSenha" class="control-label"><span style="color: #ac2925">*</span>Senha:</label>
                                     <input id="formSenha" name="formSenha" type="password" class="form-control" placeholder="Insira a senha..." autocomplete="off"/>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
+
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="formConfSenha" class="control-label"><span style="color: #ac2925">*</span>Confirmação de senha:</label>
                                     <input id="formConfSenha" name="formConfSenha" type="password" class="form-control" placeholder="Confirmação de senha..." autocomplete="off"/>
                                 </div>
                             </div>
-                        </div>
 
-                        <br/>
-
-                        <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="formNivel" class="control-label"><span style="color: #ac2925">*</span>Nível de Permissão:</label>
@@ -136,9 +134,12 @@ if (isset($erro)) {
             </div>
         </div>
     </div>
+  </section>
+  </div>
+  <?php $this->load->view('common/view_footer.php') ?>
 </div>
 
-<?php $this->load->view('common/view_footer.php') ?>
+
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -194,6 +195,9 @@ if (isset($erro)) {
 <script src="<?php echo base_url('/js/bootstrap.min.js') ?>"></script>
 <script src="<?php echo base_url('/js/pnotify.custom.min.js') ?>"></script>
 <script src="<?php echo base_url('/js/comum/script.min.js') ?>"></script>
+<script src="<?php echo base_url('/js/jquery.slimscroll.min.js') ?>"></script>
+<script src="<?php echo base_url('/js/adminlte.js') ?>"></script>
+
 
 <script type="application/javascript">
     <?php
@@ -208,4 +212,3 @@ if (isset($erro)) {
 
 </body>
 </html>
-

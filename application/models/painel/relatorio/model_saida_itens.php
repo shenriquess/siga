@@ -418,6 +418,7 @@ class Model_Saida_Itens extends CI_Model
                 . ' ORDER BY '
                 . Tabela::SAIDA . '.' . Tabela_Saida::DATA
                 . ' DESC ';
+
         } else {
 
             // SQL Query

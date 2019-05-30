@@ -7,26 +7,30 @@
     <title>Saída de Itens - Relatório - SiGA</title>
     <link href="<?php echo base_url('/css/bootstrap.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/bootstrap-theme.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link href="<?php echo base_url('/css/font-awesome.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/datepicker3.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/pnotify.custom.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/style.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo base_url('/css/AdminLTE.css') ?>">
+    <link rel="stylesheet" href="<?php echo base_url('/css/_all-skins.css') ?>">
     <!--[if lt IE 9]>
     <script src="<?php echo base_url('/js/html5shiv.min.js') ?>"></script>
     <script src="<?php echo base_url('/js/respond.min.js') ?>"></script>
     <![endif]-->
 </head>
-<body>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
 
 <?php $this->load->view('common/view_header.php'); ?>
+<?php $this->load->view('common/view_menu_painel', array('posicao' => 6)); ?>
 
-<div class="container">
+<div class="content-wrapper">
+  <section class="content">
     <div class="row">
-        <?php $this->load->view('common/view_menu_painel', array('posicao' => 6)); ?>
-        <div class="col-md-7">
-            Bem Vindo <b><?php echo $nome_usuario; ?></b>
-            <a class="pull-right" href="<?php echo base_url('/painel/logout') ?>">Sair do Sistema</a>
-            <hr>
+      <div class="col-md-2"></div>
+        <div class="col-md-8">
+
             <div class="panel panel-default">
                 <div class="panel-heading text-center">
                     <p class="header-painel">Relatório de Saída de Itens</p>
@@ -234,9 +238,11 @@
             </div>
         </div>
     </div>
+  </section>
 </div>
-
 <?php $this->load->view('common/view_footer.php') ?>
+
+</div>
 
 <script src="<?php echo base_url('/js/jquery-2.1.1.min.js') ?>"></script>
 <script src="<?php echo base_url('/js/bootstrap.min.js') ?>"></script>
@@ -244,6 +250,8 @@
 <script src="<?php echo base_url('/js/locales/bootstrap-datepicker.pt-BR.min.js') ?>"></script>
 <script src="<?php echo base_url('/js/pnotify.custom.min.js') ?>"></script>
 <script src="<?php echo base_url('/js/comum/script.min.js') ?>"></script>
+<script src="<?php echo base_url('/js/jquery.slimscroll.min.js') ?>"></script>
+<script src="<?php echo base_url('/js/adminlte.js') ?>"></script>
 <script type="application/javascript">
     <?php
         // URL das páginas.

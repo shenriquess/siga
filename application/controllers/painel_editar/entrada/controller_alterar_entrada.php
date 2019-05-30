@@ -153,13 +153,14 @@ class Controller_Alterar_Entrada extends CI_Controller
 
         if ($id_entrada) {
             $id_item = $this->model_alterar_entrada->ler_item_entrada($id_entrada);
-            $resultado = $this->model_alterar_entrada->excluir_entrada($id_entrada);
+            $id_item_contrato = $this->model_alterar_entrada->ler_id_item_contrato($id_entrada);
+            $resultado = $this->model_alterar_entrada->excluir_entrada($id_entrada,$id_item_contrato);
             if ($resultado) {
                 $this->model_alterar_entrada->atualiza_quantidade_item($id_item);
                 $dados['sucesso'] = TRUE;
             } else {
                 $dados['erro'] = TRUE;
-                $dados['erro_mensagem'] = "A entrada escolhida não existe.";
+                $dados['erro_mensagem'] = "Existem saídas relacionadas a esta entrada.";
             }
         } else {
             $dados['erro'] = TRUE;

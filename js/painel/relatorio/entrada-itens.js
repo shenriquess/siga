@@ -10,6 +10,7 @@ $(document).ready(function () {
     // Ao carregar a página já filtrar o item por tipo.
     filtraItemPorTipo();
 
+    limparCamposItem();
     // Caixa de seleção da Data Inicio.
     $('#dataInicio').datepicker(formatoData);
 
@@ -17,7 +18,7 @@ $(document).ready(function () {
     $('#dataFim').datepicker(formatoData);
 
     // Caixa de seleção do Contrato.
-    $('#formContrato').change(filtraContrato);
+    $('#formFornecedor').change(filtraContrato);
 
     // Caixa de seleção do Tipo.
     $('#formTipo').change(filtraItemPorTipo);
@@ -59,6 +60,7 @@ $(document).ready(function () {
             $formEntradaItens.attr('action', baseUrlLista);
             $formEntradaItens.submit();
         }
+
     });
 
     //--------------------------------------------------------------------------------------------------------------
@@ -67,15 +69,20 @@ $(document).ready(function () {
      * Quando selecionado um contrato, já seleciona automaticamente o nome do fornecedor.
      */
     function filtraContrato() {
-        if ($('#formContrato option:selected').val() != 0) {
-            var textoFormContrato = $('#formContrato option:selected').text();
-            textoFormContrato = textoFormContrato.split('-')
-            $('#formFornecedor').html('<option value="0">' + textoFormContrato[0] + '</option>');
+        if ($('#formFornecedor option:selected').val() != 0) {
+          $('#formUnidade').empty();
+          $('#formContrato').html('<option value="0">Todos os Contratos</option>');
+          for (i in fornecedores_contratos) {
+              if (fornecedores_contratos.hasOwnProperty(i) && fornecedores_contratos[i]['id_fornecedor'] == $('#formFornecedor option:selected').val())
+                  //$('#formFornecedor').html('<option value="0">' + textoFormContrato[0] + '</option>');
+
+                  $('#formContrato').append('<option selected="selected" value="' + fornecedores_contratos[i]['id_contrato'] + '">'  + fornecedores_contratos[i]['nome']  + ' - '  + fornecedores_contratos[i]['codigo'] + '</option>');
+          }
         } else {
-            $('#formFornecedor').html('<option value="0">Todos os Fornecedores</option>');
-            for (i in fornecedores) {
-                if (fornecedores.hasOwnProperty(i))
-                    $('#formFornecedor').append('<option value="' + fornecedores[i]['id_fornecedor'] + '">' + fornecedores[i]['nome'] + '</option>');
+            $('#formContrato').html('<option value="0">Todos os Contratos</option>');
+            for (i in fornecedores_contratos) {
+                if (fornecedores_contratos.hasOwnProperty(i))
+                    $('#formContrato').append('<option value="' + fornecedores_contratos[i]['id_contratro'] + '">' + fornecedores_contratos[i]['nome']  + ' - ' + fornecedores_contratos[i]['codigo'] + '</option>');
             }
         }
     }
@@ -128,4 +135,21 @@ $(document).ready(function () {
 
         return erro;
     }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Limpa ou zera os campos do adicionar novo item.
+     */
+    function limparCamposItem() {
+        //$('#formTipo').val(0);
+        $('#formFornecedor').val(0);
+        $('#formContrato').val(0);
+        $('#formTipo').val(0);
+        $('#formItem').empty();
+        $('#formItem').html('<option value="0">Todos os Itens</option>');
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+
 });

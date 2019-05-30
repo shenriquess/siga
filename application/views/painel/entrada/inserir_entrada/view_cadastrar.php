@@ -7,25 +7,32 @@
     <title>Inserir Entrada - Entrada - SiGA</title>
     <link href="<?php echo base_url('/css/bootstrap.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/bootstrap-theme.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link href="<?php echo base_url('/css/font-awesome.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/datepicker3.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/pnotify.custom.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/style.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo base_url('/css/AdminLTE.css') ?>">
+    <link rel="stylesheet" href="<?php echo base_url('/css/_all-skins.css') ?>">
     <!--[if lt IE 9]>
     <script src="<?php echo base_url('/js/html5shiv.min.js') ?>"></script>
     <script src="<?php echo base_url('/js/respond.min.js') ?>"></script>
     <![endif]-->
 </head>
-<body>
-
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
 <?php $this->load->view('common/view_header.php'); ?>
+<?php $this->load->view('common/view_menu_painel', array('posicao' => 0)); ?>
+
+<div class="content-wrapper">
+  <section class="content">
 
 <?php
 
 // Inserção realizada com sucesso.
 if (isset($sucesso)) {
     if ($sucesso === 1) {
-        echo '<div class="container-fluid">
+        echo '<div class="container">
                     <div id="alertaSucesso" class="row">
                         <div class="col-md-4 col-md-offset-4">
                             <div class="alert alert-success alert-dismissible" role="alert">
@@ -44,7 +51,7 @@ if (isset($sucesso)) {
 // Caso houve um erro no momento da inserção.
 if (isset($erro)) {
     if ($erro === 1 && $erro_mensagem != "") {
-        echo '<div class="container-fluid">
+        echo '<div class="container">
                     <div id="alertaErro" class="row">
                         <div class="col-md-4 col-md-offset-4">
                             <div class="alert alert-danger alert-dismissible" role="alert">
@@ -63,14 +70,9 @@ if (isset($erro)) {
 ?>
 
 
-
-<div class="container">
     <div class="row">
-        <?php $this->load->view('common/view_menu_painel', array('posicao' => 0)); ?>
-        <div class="col-md-7">
-            Bem Vindo <b><?php echo $nome_usuario; ?></b>
-            <a class="pull-right" href="<?php echo base_url('/painel/logout') ?>">Sair do Sistema</a>
-            <hr>
+      <div class="col-md-2"></div>
+        <div class="col-md-8">
             <div class="panel panel-default">
                 <div class="panel-heading text-center">
                     <p class="header-painel">Inserir Entrada</p>
@@ -198,9 +200,11 @@ if (isset($erro)) {
             </div>
         </div>
     </div>
+  </section>
+</div>
+<?php $this->load->view('common/view_footer.php') ?>
 </div>
 
-<?php $this->load->view('common/view_footer.php') ?>
 
 <!-- Modal -->
 <div class="modal fade" id="modalConfirmacao" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -359,6 +363,9 @@ if (isset($erro)) {
 <script src="<?php echo base_url('/js/locales/bootstrap-datepicker.pt-BR.min.js') ?>"></script>
 <script src="<?php echo base_url('/js/pnotify.custom.min.js') ?>"></script>
 <script src="<?php echo base_url('/js/comum/script.min.js') ?>"></script>
+<script src="<?php echo base_url('/js/jquery.slimscroll.min.js') ?>"></script>
+<script src="<?php echo base_url('/js/adminlte.js') ?>"></script>
+
 <script type="application/javascript">
     <?php
         if(isset($sucesso)) {

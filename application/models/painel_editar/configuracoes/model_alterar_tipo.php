@@ -77,12 +77,18 @@ class Model_Alterar_Tipo extends CI_Model
      */
     public function excluir_tipo($id_tipo)
     {
+        $this->db->where('id_tipo', $id_tipo);
+        $test = $this->db->get('item');
         $sql = ' DELETE FROM '
             . Tabela::TIPO
             . ' WHERE '
             . Tabela::TIPO . '.' . Tabela_Tipo::ID_TIPO . ' = ?';
+        if (empty($test->result_array())) {
+            $this->db->query($sql, array($id_tipo));
+            return TRUE;
+        }
 
-        return $this->db->query($sql, array($id_tipo));
+        return FALSE;
     }
 
     //------------------------------------------------------------------------------------------------------------------

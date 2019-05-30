@@ -141,12 +141,18 @@ class Model_Alterar_Contrato extends CI_Model
      */
     public function excluir_contrato($id_contrato)
     {
+
+        $this->db->where('id_contrato', $id_contrato);
+        $test = $this->db->get('item_contrato');
+
+
         $sql = ' DELETE FROM '
             . Tabela::CONTRATO
             . ' WHERE '
             . Tabela::CONTRATO . '.' . Tabela_Contrato::ID_CONTRATO . ' = ?';
 
-        if ($this->db->query($sql, array($id_contrato))) {
+        if (empty($test->result_array())) {
+            $this->db->query($sql, array($id_contrato));
             return TRUE;
         }
 
@@ -164,12 +170,17 @@ class Model_Alterar_Contrato extends CI_Model
      */
     public function excluir_item_contrato($id_item_contrato)
     {
+
+      $this->db->where('id_item_contrato', $id_item_contrato);
+      $test = $this->db->get('entrada');
+
         $sql = ' DELETE FROM '
             . Tabela::ITEM_CONTRATO
             . ' WHERE '
             . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM_CONTRATO . ' = ?';
 
-        if ($this->db->query($sql, array($id_item_contrato))) {
+        if (empty($test->result_array())) {
+            $this->db->query($sql, array($id_item_contrato));
             return TRUE;
         }
 
@@ -442,6 +453,3 @@ class Model_Alterar_Contrato extends CI_Model
 
 /* Fim do arquivo model_alterar_contrato.php */
 /* Localização: ./application/models/painel_editar/configuracoes/model_alterar_contrato.php */
-
-
-

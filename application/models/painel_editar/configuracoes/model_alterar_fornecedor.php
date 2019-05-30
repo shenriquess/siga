@@ -77,12 +77,15 @@ class Model_Alterar_Fornecedor extends CI_Model
      */
     public function excluir_fornecedor($id_fornecedor)
     {
+        $this->db->where('id_fornecedor', $id_fornecedor);
+        $test = $this->db->get('contrato');
         $sql = ' DELETE FROM '
             . Tabela::FORNECEDOR
             . ' WHERE '
             . Tabela::FORNECEDOR . '.' . Tabela_Fornecedor::ID_FORNECEDOR . ' = ?';
 
-        if ($this->db->query($sql, array($id_fornecedor))) {
+        if (empty($test->result_array())) {
+            $this->db->query($sql, array($id_fornecedor));
             return TRUE;
         }
 

@@ -7,32 +7,60 @@
     <title>Entrada de Itens - Relatório - SiGA</title>
     <link href="<?php echo base_url('/css/bootstrap.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/bootstrap-theme.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link href="<?php echo base_url('/css/font-awesome.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/datepicker3.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/pnotify.custom.min.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('/css/style.min.css') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo base_url('/css/AdminLTE.css') ?>">
+    <link rel="stylesheet" href="<?php echo base_url('/css/_all-skins.css') ?>">
     <!--[if lt IE 9]>
     <script src="<?php echo base_url('/js/html5shiv.min.js') ?>"></script>
     <script src="<?php echo base_url('/js/respond.min.js') ?>"></script>
     <![endif]-->
 </head>
-<body>
-
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
 <?php $this->load->view('common/view_header.php'); ?>
+<?php $this->load->view('common/view_menu_painel', array('posicao' => 4)); ?>
 
-
-<div class="container">
+<div class="content-wrapper">
+  <section class="content">
     <div class="row">
-        <?php $this->load->view('common/view_menu_painel', array('posicao' => 4)); ?>
-        <div class="col-md-7">
-            Bem Vindo <b><?php echo $nome_usuario; ?></b>
-            <a class="pull-right" href="<?php echo base_url('/painel/logout') ?>">Sair do Sistema</a>
-            <hr>
+
+      <div class="col-md-2"></div>
+        <div class="col-md-8">
+
             <div class="panel panel-default">
                 <div class="panel-heading text-center">
                     <p class="header-painel">Relatório de Entrada de Itens</p>
                 </div>
                 <div class="panel-body">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <select name="formFornecedor" id="formFornecedor" class="form-control">
+                              <option value="0">Todos os Fornecedores</option>
+                              <?php
+                              if (isset($fornecedores)) {
+                                  if (($formFornecedor == 0 && $formContrato == 0) || ($formContrato != 0)) {
+                                      foreach ($fornecedores as $fornecedor) {
+                                          echo '<option value="' . $fornecedor['id_fornecedor'] . '">' . $fornecedor['nome'] . '</option>';
+                                      }
+                                  } else if ($formFornecedor != 0 && $formContrato == 0) {
+                                      foreach ($fornecedores as $fornecedor) {
+                                          if ($formFornecedor == $fornecedor['id_fornecedor']) {
+                                              echo '<option value="' . $fornecedor['id_fornecedor'] . '" selected="selected">' . $fornecedor['nome'] . '</option>';
+                                          } else {
+                                              echo '<option value="' . $fornecedor['id_fornecedor'] . '">' . $fornecedor['nome'] . '</option>';
+                                          }
+                                      }
+                                  }
+                              }
+                              ?>
+                          </select>
+                      </div>
+                  </div>
+                  <br/>
                     <div class="row">
                         <form id="formEntradaItens"
                               action="<?php echo base_url('painel/relatorio/entradaitens/lista'); ?>" method="post"
@@ -54,32 +82,6 @@
                                                             echo '<option value="' . $fornecedor_contrato['id_contrato'] . '" selected="selected">' . $fornecedor_contrato['nome'] . ' - ' . $fornecedor_contrato['codigo'] . '</option>';
                                                         } else {
                                                             echo '<option value="' . $fornecedor_contrato['id_contrato'] . '">' . $fornecedor_contrato['nome'] . ' - ' . $fornecedor_contrato['codigo'] . '</option>';
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <br/>
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <select name="formFornecedor" id="formFornecedor" class="form-control">
-                                            <option value="0">Todos os Fornecedores</option>
-                                            <?php
-                                            if (isset($fornecedores)) {
-                                                if (($formFornecedor == 0 && $formContrato == 0) || ($formContrato != 0)) {
-                                                    foreach ($fornecedores as $fornecedor) {
-                                                        echo '<option value="' . $fornecedor['id_fornecedor'] . '">' . $fornecedor['nome'] . '</option>';
-                                                    }
-                                                } else if ($formFornecedor != 0 && $formContrato == 0) {
-                                                    foreach ($fornecedores as $fornecedor) {
-                                                        if ($formFornecedor == $fornecedor['id_fornecedor']) {
-                                                            echo '<option value="' . $fornecedor['id_fornecedor'] . '" selected="selected">' . $fornecedor['nome'] . '</option>';
-                                                        } else {
-                                                            echo '<option value="' . $fornecedor['id_fornecedor'] . '">' . $fornecedor['nome'] . '</option>';
                                                         }
                                                     }
                                                 }
@@ -216,9 +218,12 @@
             </div>
         </div>
     </div>
+  </section>
+</div>
+<?php $this->load->view('common/view_footer.php') ?>
+
 </div>
 
-<?php $this->load->view('common/view_footer.php') ?>
 
 <script src="<?php echo base_url('/js/jquery-2.1.1.min.js') ?>"></script>
 <script src="<?php echo base_url('/js/bootstrap.min.js') ?>"></script>
@@ -226,6 +231,8 @@
 <script src="<?php echo base_url('/js/locales/bootstrap-datepicker.pt-BR.min.js') ?>"></script>
 <script src="<?php echo base_url('/js/pnotify.custom.min.js') ?>"></script>
 <script src="<?php echo base_url('/js/comum/script.min.js') ?>"></script>
+<script src="<?php echo base_url('/js/jquery.slimscroll.min.js') ?>"></script>
+<script src="<?php echo base_url('/js/adminlte.js') ?>"></script>
 <script type="application/javascript">
     <?php
         // URL das páginas.
@@ -243,9 +250,12 @@
         if(isset($fornecedores)) {
             echo 'var fornecedores = '.json_encode($fornecedores).';';
         }
+        if(isset($fornecedores_contratos)) {
+            echo 'var fornecedores_contratos = '.json_encode($fornecedores_contratos).';';
+        }
      ?>
 </script>
-<script src="<?php echo base_url('/js/painel/relatorio/entrada-itens.min.js') ?>"></script>
+<script src="<?php echo base_url('/js/painel/relatorio/entrada-itens.js') ?>"></script>
 
 </body>
 </html>

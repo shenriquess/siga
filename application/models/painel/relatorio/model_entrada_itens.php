@@ -30,6 +30,7 @@ class Model_Entrada_Itens extends CI_Model
         $sql = 'SELECT '
             . Tabela::CONTRATO . '.' . Tabela_Contrato::ID_CONTRATO . ', '
             . Tabela::CONTRATO . '.' . Tabela_Contrato::CODIGO . ', '
+            . Tabela::FORNECEDOR . '.' . Tabela_Fornecedor::ID_FORNECEDOR. ', '
             . Tabela::FORNECEDOR . '.' . Tabela_Fornecedor::NOME
             . ' FROM '
             . Tabela::CONTRATO . ', '
@@ -140,6 +141,7 @@ class Model_Entrada_Itens extends CI_Model
      */
     public function ler_entradas_data_contrato($data_inicio, $data_fim, $id_contrato)
     {
+
         $sql = ' SELECT '
             . Tabela::CONTRATO . '.' . Tabela_Contrato::CODIGO . ' AS codigo_contrato, '
             . Tabela::ITEM . '.' . Tabela_Item::NOME . ' AS nome_item, '
@@ -222,7 +224,7 @@ class Model_Entrada_Itens extends CI_Model
             . ' AND '
             . Tabela::CONTRATO . '.' . Tabela_Contrato::ID_CONTRATO . ' = ? '
             . ' AND '
-            . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM . ' = ' . Tabela::TIPO . '.' . Tabela_Tipo::ID_TIPO
+            . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM . ' = ' . Tabela::ITEM. '.' . Tabela_Item::ID_ITEM
             . ' AND '
             . Tabela::TIPO . '.' . Tabela_Tipo::ID_TIPO . ' = ? '
             . ' ORDER BY '
@@ -281,7 +283,7 @@ class Model_Entrada_Itens extends CI_Model
             . ' AND '
             . Tabela::CONTRATO . '.' . Tabela_Contrato::ID_CONTRATO . ' = ? '
             . ' AND '
-            . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM . ' = ' . Tabela::TIPO . '.' . Tabela_Tipo::ID_TIPO
+            . Tabela::ITEM_CONTRATO . '.' . Tabela_Item_Contrato::ID_ITEM . ' = ' . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM
             . ' AND '
             . Tabela::TIPO . '.' . Tabela_Tipo::ID_TIPO . ' = ? '
             . ' AND '

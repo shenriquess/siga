@@ -14,7 +14,8 @@ $ativar_menu = array(
     10 => '',
     11 => '',
     12 => '',
-    13 => ''
+    13 => '',
+    14 => ''
 );
 
 $ativar_menu[$posicao] = "active";
@@ -23,89 +24,188 @@ $dados_acesso = $this->session->all_userdata();
 $nivel = $dados_acesso['nivel'];
 
 if($nivel == 0) {
-    echo '  <div class="col-md-3 col-md-offset-1">
-                <h4 class="text-center"><b>Entrada</b></h4>
-                <ul class="nav nav-pills nav-stacked">
-                    <li class="'.$ativar_menu[0].'"><a class="green" href="'.base_url("/painel/entrada/inserirentrada/cadastrar").'">Inserir Entrada</a></li>
-                </ul>
-                <hr>
-                <h4 class="text-center"><b>Saída</b></h4>
-                <ul class="nav nav-pills nav-stacked">
-                    <li class="'.$ativar_menu[1].'"><a class="green" href="'.base_url("/painel/saida/inserirsaida/cadastrar").'">Inserir Saída</a></li>
-                </ul>
-                <hr>
+    echo '
+            <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
 
-                <h4 class="text-center"><b>Relatórios</b></h4>
-                <ul class="nav nav-pills nav-stacked">
-                    <li class="'.$ativar_menu[2].'"><a class="green" href="'.base_url("/painel/relatorio/balancocontratos/lista").'">Balanço de Contratos</a></li>
-                    <li class="'.$ativar_menu[4].'"><a class="green" href="'.base_url("/painel/relatorio/entradaitens/lista").'">Entrada de Itens</a></li>
-                    <li class="'.$ativar_menu[3].'"><a class="green" href="'.base_url("/painel/relatorio/estoquedisponivel/lista").'">Estoque Disponível</a></li>
-                    <li class="'.$ativar_menu[6].'"><a class="green" href="'.base_url("/painel/relatorio/saidaitens/lista").'">Saída de Itens</a></li>
-                </ul>
-                <hr>
-                <h4 class="text-center"><b>Configurações</b></h4>
-                <ul class="nav nav-pills nav-stacked">
-                    <li class="'.$ativar_menu[7].'"><a class="green" href="'.base_url("/painel/configuracoes/cadastrarcontrato/cadastrar").'">Cadastrar Contrato</a></li>
-                    <li class="'.$ativar_menu[8].'"><a class="green" href="'.base_url("/painel/configuracoes/cadastrardestino/cadastrar").'">Cadastrar Destino</a></li>
-                    <li class="'.$ativar_menu[9].'"><a class="green" href="'.base_url("/painel/configuracoes/cadastrarfornecedor/cadastrar").'">Cadastrar Fornecedor</a></li>
-                    <li class="'.$ativar_menu[10].'"><a class="green" href="'.base_url("/painel/configuracoes/cadastraritem/cadastrar").'">Cadastrar Item</a></li>
-                    <li class="'.$ativar_menu[11].'"><a class="green" href="'.base_url("/painel/configuracoes/cadastrartipo/cadastrar").'">Cadastrar Tipo</a></li>
-                    <li class="'.$ativar_menu[12].'"><a class="green" href="'.base_url("/painel/configuracoes/cadastrarusuario/cadastrar") .'">Cadastrar Usuário</a></li>
-                </ul>
-                <hr>
-                <h4 class="text-center"><b>Administração</b></h4>
-                <div class="nav nav-pills nav-stacked">
-                    <a class="btn btn-danger btn-block" href="'.base_url("/painel/administracao/login").'">Alterar Informações</a>
-                </div>
-            </div>';
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">MENU PRINCIPAL</li>
+            <li class="treeview ' .$ativar_menu[0].' ">
+              <a href="#">
+                <i class="fa fa-arrow-right"></i> <span>Entrada</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li class="'.$ativar_menu[0].'"><a href="'.base_url("/painel/entrada/inserirentrada/cadastrar").'"><i class="fa fa-circle-o"></i> Inserir Entrada</a></li>
+              </ul>
+            </li>
+            <li class="treeview '.$ativar_menu[1].' ">
+              <a href="#">
+                <i class="fa  fa-arrow-left"></i>
+                <span>Saída</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li class="'.$ativar_menu[1].'"><a href="'.base_url("/painel/saida/inserirsaida/cadastrar").'"><i class="fa fa-circle-o"></i> Inserir Saída</a></li>
+              </ul>
+            </li>
+            <li class="treeview '.$ativar_menu[2].' '.$ativar_menu[4].' '.$ativar_menu[3].' '.$ativar_menu[6].'">
+              <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>Relatórios</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li class="'.$ativar_menu[2].'"><a href="'.base_url("/painel/relatorio/balancocontratos/lista").'"><i class="fa fa-circle-o"></i> Balanço de Contratos</a></li>
+                <li class="'.$ativar_menu[4].'"><a href="'.base_url("/painel/relatorio/entradaitens/lista").'"><i class="fa fa-circle-o"></i> Entrada de Itens</a></li>
+                <li class="'.$ativar_menu[3].'"><a href="'.base_url("/painel/relatorio/estoquedisponivel/lista").'"><i class="fa fa-circle-o"></i> Estoque Disponível</a></li>
+                <li class="'.$ativar_menu[6].'"><a href="'.base_url("/painel/relatorio/saidaitens/lista").'"><i class="fa fa-circle-o"></i> Saída de Itens</a></li>
+              </ul>
+            </li>
+            <li class="treeview '.$ativar_menu[7].' '.$ativar_menu[8].' '.$ativar_menu[9].' '.$ativar_menu[10].' '.$ativar_menu[11].' '.$ativar_menu[12].'">
+              <a href="#">
+                <i class="fa fa-cog"></i> <span>Configurações</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li class="'.$ativar_menu[7].'"><a href="'.base_url("/painel/configuracoes/cadastrarcontrato/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Contrato</a></li>
+                <li class="'.$ativar_menu[8].'"><a href="'.base_url("/painel/configuracoes/cadastrardestino/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Destino</a></li>
+                <li class="'.$ativar_menu[9].'"><a href="'.base_url("/painel/configuracoes/cadastrarfornecedor/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Fornecedor</a></li>
+                <li class="'.$ativar_menu[10].'"><a href="'.base_url("/painel/configuracoes/cadastraritem/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Item</a></li>
+                <li class="'.$ativar_menu[11].'"><a  href="'.base_url("/painel/configuracoes/cadastrartipo/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Tipo</a></li>
+                <li class="'.$ativar_menu[12].'"><a href="'.base_url("/painel/configuracoes/cadastrarusuario/cadastrar") .'"><i class="fa fa-circle-o"></i> Cadastrar Usuário</a></li>
+              </ul>
+            </li>
+            <li class="treeview '.$ativar_menu[14].'">
+              <a href="#">
+                <i class="fa fa-key"></i> <span>Administração</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li class="'.$ativar_menu[14].'"><a href="'.base_url("/painel/administracao/login").'"><i class="fa fa-circle-o"></i> Alterar Informações</a></li>
+              </ul>
+            </li>
+            </section>
+            <!-- /.sidebar -->
+            </aside>';
 }
 else if($nivel == 1)
 {
-    echo '  <div class="col-md-3 col-md-offset-1">
-                <h4 class="text-center"><b>Entrada</b></h4>
-                <ul class="nav nav-pills nav-stacked">
-                    <li class="'.$ativar_menu[0].'"><a class="green" href="'.base_url("/painel/entrada/inserirentrada/cadastrar").'">Inserir Entrada</a></li>
-                </ul>
-                <hr>
-                <h4 class="text-center"><b>Saída</b></h4>
-                <ul class="nav nav-pills nav-stacked">
-                    <li class="'.$ativar_menu[1].'"><a class="green" href="'.base_url("/painel/saida/inserirsaida/cadastrar").'">Inserir Saída</a></li>
-                </ul>
-                <hr>
+  echo '
+          <aside class="main-sidebar">
+          <!-- sidebar: style can be found in sidebar.less -->
+          <section class="sidebar">
 
-                <h4 class="text-center"><b>Relatórios</b></h4>
-                <ul class="nav nav-pills nav-stacked">
-                    <li class="'.$ativar_menu[2].'"><a class="green" href="'.base_url("/painel/relatorio/balancocontratos/lista").'">Balanço de Contratos</a></li>
-                    <li class="'.$ativar_menu[4].'"><a class="green" href="'.base_url("/painel/relatorio/entradaitens/lista").'">Entrada de Itens</a></li>
-                    <li class="'.$ativar_menu[3].'"><a class="green" href="'.base_url("/painel/relatorio/estoquedisponivel/lista").'">Estoque Disponível</a></li>
-                    <li class="'.$ativar_menu[6].'"><a class="green" href="'.base_url("/painel/relatorio/saidaitens/lista").'">Saída de Itens</a></li>
-                </ul>
-                <hr>
-                <h4 class="text-center"><b>Configurações</b></h4>
-                <ul class="nav nav-pills nav-stacked">
-                    <li class="'.$ativar_menu[7].'"><a class="green" href="'.base_url("/painel/configuracoes/cadastrarcontrato/cadastrar").'">Cadastrar Contrato</a></li>
-                    <li class="'.$ativar_menu[8].'"><a class="green" href="'.base_url("/painel/configuracoes/cadastrardestino/cadastrar").'">Cadastrar Destino</a></li>
-                    <li class="'.$ativar_menu[9].'"><a class="green" href="'.base_url("/painel/configuracoes/cadastrarfornecedor/cadastrar").'">Cadastrar Fornecedor</a></li>
-                    <li class="'.$ativar_menu[10].'"><a class="green" href="'.base_url("/painel/configuracoes/cadastraritem/cadastrar").'">Cadastrar Item</a></li>
-                    <li class="'.$ativar_menu[11].'"><a class="green" href="'.base_url("/painel/configuracoes/cadastrartipo/cadastrar").'">Cadastrar Tipo</a></li>
-                </ul>
-            </div>';
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu" data-widget="tree">
+          <li class="header">MENU PRINCIPAL</li>
+          <li class="treeview ' .$ativar_menu[0].' ">
+            <a href="#">
+              <i class="fa fa-arrow-right"></i> <span>Entrada</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li class="'.$ativar_menu[0].'"><a href="'.base_url("/painel/entrada/inserirentrada/cadastrar").'"><i class="fa fa-circle-o"></i> Inserir Entrada</a></li>
+            </ul>
+          </li>
+          <li class="treeview '.$ativar_menu[1].' ">
+            <a href="#">
+              <i class="fa  fa-arrow-left"></i>
+              <span>Saída</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li class="'.$ativar_menu[1].'"><a href="'.base_url("/painel/saida/inserirsaida/cadastrar").'"><i class="fa fa-circle-o"></i> Inserir Saída</a></li>
+            </ul>
+          </li>
+          <li class="treeview '.$ativar_menu[2].' '.$ativar_menu[4].' '.$ativar_menu[3].' '.$ativar_menu[6].'">
+            <a href="#">
+              <i class="fa fa-laptop"></i>
+              <span>Relatórios</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li class="'.$ativar_menu[2].'"><a href="'.base_url("/painel/relatorio/balancocontratos/lista").'"><i class="fa fa-circle-o"></i> Balanço de Contratos</a></li>
+              <li class="'.$ativar_menu[4].'"><a href="'.base_url("/painel/relatorio/entradaitens/lista").'"><i class="fa fa-circle-o"></i> Entrada de Itens</a></li>
+              <li class="'.$ativar_menu[3].'"><a href="'.base_url("/painel/relatorio/estoquedisponivel/lista").'"><i class="fa fa-circle-o"></i> Estoque Disponível</a></li>
+              <li class="'.$ativar_menu[6].'"><a href="'.base_url("/painel/relatorio/saidaitens/lista").'"><i class="fa fa-circle-o"></i> Saída de Itens</a></li>
+            </ul>
+          </li>
+          <li class="treeview '.$ativar_menu[7].' '.$ativar_menu[8].' '.$ativar_menu[9].' '.$ativar_menu[10].' '.$ativar_menu[11].'">
+            <a href="#">
+              <i class="fa fa-cog"></i> <span>Configurações</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li class="'.$ativar_menu[7].'"><a href="'.base_url("/painel/configuracoes/cadastrarcontrato/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Contrato</a></li>
+              <li class="'.$ativar_menu[8].'"><a href="'.base_url("/painel/configuracoes/cadastrardestino/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Destino</a></li>
+              <li class="'.$ativar_menu[9].'"><a href="'.base_url("/painel/configuracoes/cadastrarfornecedor/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Fornecedor</a></li>
+              <li class="'.$ativar_menu[10].'"><a href="'.base_url("/painel/configuracoes/cadastraritem/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Item</a></li>
+              <li class="'.$ativar_menu[11].'"><a  href="'.base_url("/painel/configuracoes/cadastrartipo/cadastrar").'"><i class="fa fa-circle-o"></i> Cadastrar Tipo</a></li>
+            </ul>
+          </li>
+
+          </section>
+          <!-- /.sidebar -->
+          </aside>';
 }
 else if($nivel == 2)
 {
-    echo '  <div class="col-md-3 col-md-offset-1">
-                <h4 class="text-center"><b>Entrada</b></h4>
-                <ul class="nav nav-pills nav-stacked">
-                    <li class="'.$ativar_menu[0].'"><a class="green" href="'.base_url("/painel/entrada/inserirentrada/cadastrar").'">Inserir Entrada</a></li>
-                </ul>
-                <hr>
-                <h4 class="text-center"><b>Saída</b></h4>
-                <ul class="nav nav-pills nav-stacked">
-                    <li class="'.$ativar_menu[1].'"><a class="green" href="'.base_url("/painel/saida/inserirsaida/cadastrar").'">Inserir Saída</a></li>
-                </ul>
-            </div>';
+  echo '
+          <aside class="main-sidebar">
+          <!-- sidebar: style can be found in sidebar.less -->
+          <section class="sidebar">
+
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu" data-widget="tree">
+          <li class="header">MENU PRINCIPAL</li>
+          <li class="treeview ' .$ativar_menu[0].' ">
+            <a href="#">
+              <i class="fa fa-arrow-right"></i> <span>Entrada</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li class="'.$ativar_menu[0].'"><a href="'.base_url("/painel/entrada/inserirentrada/cadastrar").'"><i class="fa fa-circle-o"></i> Inserir Entrada</a></li>
+            </ul>
+          </li>
+          <li class="treeview '.$ativar_menu[1].' ">
+            <a href="#">
+              <i class="fa  fa-arrow-left"></i>
+              <span>Saída</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li class="'.$ativar_menu[1].'"><a href="'.base_url("/painel/saida/inserirsaida/cadastrar").'"><i class="fa fa-circle-o"></i> Inserir Saída</a></li>
+            </ul>
+          </li>
+          
+          </section>
+          <!-- /.sidebar -->
+          </aside>';
 }
 
 ?>
-
-

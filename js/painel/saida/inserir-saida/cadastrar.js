@@ -303,7 +303,7 @@ $(document).ready(function () {
      * Limpa ou zera os campos do adicionar novo item.
      */
     function limparCamposItem() {
-        $('#formTipo').val(0);
+        //$('#formTipo').val(0);
         $('#formItem').val(0);
         $('#formContrato').val(0);
         $('#formQuantidade').val('');

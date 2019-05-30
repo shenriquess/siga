@@ -82,15 +82,16 @@ class Model_Alterar_Item extends CI_Model
      */
     public function excluir_item($id_item)
     {
+        $this->db->where('id_item', $id_item);
+        $test = $this->db->get('item_contrato');
         $sql = ' DELETE FROM '
             . Tabela::ITEM
             . ' WHERE '
             . Tabela::ITEM . '.' . Tabela_Item::ID_ITEM . ' = ?';
-
-        if ($this->db->query($sql, array($id_item))) {
+        if (empty($test->result_array())) {
+            $this->db->query($sql, array($id_item));
             return TRUE;
         }
-
         return FALSE;
     }
 

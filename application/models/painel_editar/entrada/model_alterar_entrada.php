@@ -693,20 +693,21 @@ class Model_Alterar_Entrada extends CI_Model
      * @return bool Retorna verdadeiro caso a exclusão tenha sido realizada com sucesso,
      *              senão retorna falso.
      */
-    public function excluir_entrada($id_entrada)
+    public function excluir_entrada($id_entrada,$id_item_contrato)
     {
+        $this->db->where('id_item_contrato', $id_item_contrato);
+        $test = $this->db->get('saida');
         $sql = ' DELETE FROM '
             . Tabela::ENTRADA
             . ' WHERE '
             . Tabela::ENTRADA . ' . ' . Tabela_Entrada::ID_ENTRADA . ' = ?';
 
-        $this->db->query($sql, array($id_entrada));
-
-        if ($this->db->affected_rows()) {
+        if (empty($test->result_array())) {
+            $this->db->query($sql, array($id_entrada));
             return TRUE;
         }
-
         return FALSE;
+
     }
 
     //------------------------------------------------------------------------------------------------------------------
