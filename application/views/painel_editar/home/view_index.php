@@ -75,15 +75,19 @@
                         <div class="panel-body">
                             <div class="thumbnail">
                                 <br>
+                                <br>
                                 <div class="text-center"><h4><b>SiGA</b> - Sistema de Gerenciamento de Almoxarifado</h4></div>
                                 <div class="text-center"><h4>Secretaria de Educação</h4></div>
                                 <br>
                                 <div class="text-center"><h3><b>Modo Edição</b></h3></div>
                                 <br>
+                                <br>
                                 <div class="text-center">
                                     <img src="<?php echo base_url('/images/brasaosaogoncalo.jpg'); ?>" alt="Brasão São Gonçalo"
                                          width="300"/>
                                 </div>
+                                <br>
+                                <br>
                                 <br>
                             </div>
                         </div>

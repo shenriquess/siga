@@ -73,9 +73,11 @@
                       <p class="header-painel">SiGA - Homepage </p>
                   </div>
                   <br>
-
                   <div class="panel-body">
                       <div class="thumbnail">
+                          <br>
+                          <br>
+                          <br>
                           <br>
                           <div class="text-center"><h4>Bem Vindo ao <b>SiGA</b> - Sistema de Gerenciamento de Almoxarifado</h4></div>
                           <div class="text-center"><h4>Secretaria de Educação</h4></div>
@@ -85,6 +87,10 @@
                               <img src="<?php echo base_url('/images/brasaosaogoncalo.jpg'); ?>" alt="Brasão São Gonçalo"
                                    width="300"/>
                           </div>
+                          <br>
+                          <br>
+                          <br>
+                          <br>
                           <br>
                       </div>
                   </div>

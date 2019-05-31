@@ -17,28 +17,9 @@
     <script src="<?php echo base_url('/js/respond.min.js') ?>"></script>
     <![endif]-->
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
-  <header class="main-header">
-    <a href="<?php echo base_url('/painel/home') ?>" class="logo">
-    <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><b>S</b>iG</span>
-    <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg"><b>SiGA</b></span>
-    </a>
-    <nav class="navbar navbar-static-top">
-      <!-- Sidebar toggle button-->
+<body class="hold-transition login-page">
+<div class="login-box">
 
-        <div class="navbar-custom-menu">
-            <!--div class="navbar-header">
-                <a class="navbar-brand" href="<?php echo base_url('/painel/home') ?>"><b>SiGA</b></a>
-            </div-->
-
-            </div>
-    </nav>
-  </header>
-
-<div class="content">
 <?php
 if (isset($erros)) {
     if ($erros == 1) {
@@ -60,70 +41,66 @@ if (isset($erros)) {
 ?>
 
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="thumbnail">
-                    <div class="text-center">
-                        <h5 style="padding-bottom: 0px;"><b>SiGA</b></h5>
-                        <h5>Secretaria de Educação</h5>
+    <div class="login-logo">
+
+
+
+
+    </div>
+
+    <div class="login-box-body">
+      <div class="thumbnail">
+        <div class="text-center">
+          <h4 style="padding-bottom: 0px;"><b>SiGA</b></h4>
+
+          </div>
+
+          <div class="text-center">
+            <h5>Secretaria de Educação</h5  >
+              <img src="<?php echo base_url('/images/brasaosaogoncalo.jpg'); ?>" alt="Brasão São Gonçalo"
+                   width="160"/>
+
+          </div>
+          <br/>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <h4 align="center"><b>Login</b></h4>
+              </div>
+              <div class="panel-body">
+                <form action="<?php echo base_url('/login'); ?>" method="post">
+                    <div class="form-group">
+                        <label for="formUsuario" class="control-label">Usuário:</label>
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="formLoginUsuario"
+                                   name="formLoginUsuario" required="required" placeholder="usuário"/>
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        </div>
                     </div>
-                    <div class="text-center">
-                        <img src="<?php echo base_url('/images/brasaosaogoncalo.jpg'); ?>" alt="Brasão São Gonçalo"
-                             width="160"/>
+                    <div class="form-group">
+                        <label for="formSenha" class="control-label">Senha:</label>
+
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="formLoginSenha"
+                                   name="formLoginSenha" required="required" placeholder="senha"/>
+                            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        </div>
                     </div>
-                    <br/>
-                </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                <input class="btn btn-primary btn-block btn-flat" type="submit" value="Entrar"
+                                       name="formEntrar"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+              </div>
             </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="col-md-12 well">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 align="center"><b>Login</b></h4>
-                            <h5 align="center">Autenticação Necessária</h5>
-                        </div>
-                        <div class="panel-body">
-                            <form action="<?php echo base_url('/login'); ?>" method="post">
-                                <div class="form-group">
-                                    <label for="formUsuario" class="control-label">Usuário:</label>
-
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="formLoginUsuario"
-                                               name="formLoginUsuario" required="required" placeholder="usuário"/>
-                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="formSenha" class="control-label">Senha:</label>
-
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" id="formLoginSenha"
-                                               name="formLoginSenha" required="required" placeholder="senha"/>
-                                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-6 col-md-offset-3">
-                                            <input class="btn btn-success btn-block" type="submit" value="Entrar"
-                                                   name="formEntrar"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
 
 <script src="<?php echo base_url('/js/jquery-2.1.1.min.js') ?>"></script>
 <script src="<?php echo base_url('/js/bootstrap.min.js') ?>"></script>
